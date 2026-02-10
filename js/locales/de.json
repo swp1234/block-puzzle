@@ -1,0 +1,50 @@
+{
+  "app": {
+    "loading": "Wird geladen..."
+  },
+  "menu": {
+    "subtitle": "Klassisches Block-Puzzle",
+    "highScore": "Höchstwertung",
+    "startGame": "Spiel Starten",
+    "stats": "📊 Statistiken",
+    "hint": "Verwenden Sie Pfeile oder wischen zum Spielen",
+    "home": "DopaBrain Startseite"
+  },
+  "game": {
+    "tapToStart": "Zum Starten antippen!",
+    "next": "Nächstes",
+    "hold": "Halten",
+    "holdButton": "HALTEN (H)",
+    "controls": "Steuerung",
+    "back": "Zurück"
+  },
+  "pause": {
+    "title": "Pausiert",
+    "resume": "Fortsetzen",
+    "quit": "Menü"
+  },
+  "gameover": {
+    "title": "Spielende",
+    "score": "Punktzahl",
+    "level": "Stufe",
+    "best": "Beste",
+    "newRecord": "🎉 Neuer Rekord!",
+    "retry": "Erneut Versuchen",
+    "share": "📤 Teilen",
+    "menu": "🏠 Menü"
+  },
+  "screens": {
+    "back": "← Zurück",
+    "stats": "Statistiken"
+  },
+  "ad": {
+    "placeholder": "Werbefläche",
+    "placeholder_interstitial": "Werbefläche (Vollbild)",
+    "label": "Anzeige",
+    "countdown": "Schließen in",
+    "close": "✕ Schließen"
+  },
+  "recommendations": {
+    "title": "Versuchen Sie Auch Diese Spiele"
+  }
+}

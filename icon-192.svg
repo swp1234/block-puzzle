@@ -1,0 +1,69 @@
+<svg viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="192" height="192" fill="#0f0f23"/>
+
+  <!-- Gradient Defs -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9b59b6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff00ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffff00;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Grid Background -->
+  <g opacity="0.1" stroke="#9b59b6" stroke-width="1">
+    <line x1="0" y1="48" x2="192" y2="48"/>
+    <line x1="0" y1="96" x2="192" y2="96"/>
+    <line x1="0" y1="144" x2="192" y2="144"/>
+    <line x1="48" y1="0" x2="48" y2="192"/>
+    <line x1="96" y1="0" x2="96" y2="192"/>
+    <line x1="144" y1="0" x2="144" y2="192"/>
+  </g>
+
+  <!-- I Block (Cyan) -->
+  <rect x="24" y="32" width="20" height="20" fill="#00d4ff" rx="2" filter="url(#glow)"/>
+  <rect x="44" y="32" width="20" height="20" fill="#00d4ff" rx="2" filter="url(#glow)"/>
+
+  <!-- O Block (Yellow) -->
+  <rect x="64" y="32" width="20" height="20" fill="#ffff00" rx="2" filter="url(#glow)"/>
+  <rect x="84" y="32" width="20" height="20" fill="#ffff00" rx="2" filter="url(#glow)"/>
+
+  <!-- T Block (Magenta) -->
+  <rect x="24" y="64" width="20" height="20" fill="#ff00ff" rx="2" filter="url(#glow)"/>
+  <rect x="44" y="64" width="20" height="20" fill="#ff00ff" rx="2" filter="url(#glow)"/>
+  <rect x="64" y="64" width="20" height="20" fill="#ff00ff" rx="2" filter="url(#glow)"/>
+
+  <!-- S Block (Green) -->
+  <rect x="84" y="64" width="20" height="20" fill="#00ff00" rx="2" filter="url(#glow)"/>
+  <rect x="104" y="64" width="20" height="20" fill="#00ff00" rx="2" filter="url(#glow)"/>
+
+  <!-- Z Block (Pink) -->
+  <rect x="24" y="96" width="20" height="20" fill="#ff0080" rx="2" filter="url(#glow)"/>
+  <rect x="44" y="96" width="20" height="20" fill="#ff0080" rx="2" filter="url(#glow)"/>
+
+  <!-- J Block (Orange) -->
+  <rect x="64" y="96" width="20" height="20" fill="#ff8000" rx="2" filter="url(#glow)"/>
+  <rect x="84" y="96" width="20" height="20" fill="#ff8000" rx="2" filter="url(#glow)"/>
+
+  <!-- L Block (Blue) -->
+  <rect x="104" y="96" width="20" height="20" fill="#0080ff" rx="2" filter="url(#glow)"/>
+  <rect x="124" y="96" width="20" height="20" fill="#0080ff" rx="2" filter="url(#glow)"/>
+
+  <!-- Puzzle Piece Circle (Center) -->
+  <circle cx="96" cy="96" r="52" fill="none" stroke="url(#grad1)" stroke-width="3" opacity="0.6"/>
+  <circle cx="96" cy="96" r="48" fill="none" stroke="url(#grad2)" stroke-width="2" opacity="0.8"/>
+
+  <!-- Border -->
+  <rect x="8" y="8" width="176" height="176" fill="none" stroke="url(#grad1)" stroke-width="2" rx="20" opacity="0.8"/>
+</svg>

@@ -1,0 +1,50 @@
+{
+  "app": {
+    "loading": "Chargement..."
+  },
+  "menu": {
+    "subtitle": "Puzzle de Blocs Classique",
+    "highScore": "Meilleur Score",
+    "startGame": "Commencer le Jeu",
+    "stats": "📊 Statistiques",
+    "hint": "Utilisez les flèches ou glissez pour jouer",
+    "home": "Accueil DopaBrain"
+  },
+  "game": {
+    "tapToStart": "Appuyez pour commencer!",
+    "next": "Suivant",
+    "hold": "Conserver",
+    "holdButton": "CONSERVER (H)",
+    "controls": "Contrôles",
+    "back": "Retour"
+  },
+  "pause": {
+    "title": "Pause",
+    "resume": "Continuer",
+    "quit": "Menu"
+  },
+  "gameover": {
+    "title": "Fin du Jeu",
+    "score": "Score",
+    "level": "Niveau",
+    "best": "Meilleur",
+    "newRecord": "🎉 Nouveau Record!",
+    "retry": "Réessayer",
+    "share": "📤 Partager",
+    "menu": "🏠 Menu"
+  },
+  "screens": {
+    "back": "← Retour",
+    "stats": "Statistiques"
+  },
+  "ad": {
+    "placeholder": "Espace Publicitaire",
+    "placeholder_interstitial": "Espace Publicitaire (Plein Écran)",
+    "label": "Publicité",
+    "countdown": "Fermer dans",
+    "close": "✕ Fermer"
+  },
+  "recommendations": {
+    "title": "Essayez Aussi Ces Jeux"
+  }
+}

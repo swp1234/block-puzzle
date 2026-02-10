@@ -1,0 +1,50 @@
+{
+  "app": {
+    "loading": "Memuat..."
+  },
+  "menu": {
+    "subtitle": "Puzzle Blok Klasik",
+    "highScore": "Skor Tertinggi",
+    "startGame": "Mulai Permainan",
+    "stats": "📊 Statistik",
+    "hint": "Gunakan panah atau usap untuk bermain",
+    "home": "Beranda DopaBrain"
+  },
+  "game": {
+    "tapToStart": "Ketuk untuk mulai!",
+    "next": "Berikutnya",
+    "hold": "Simpan",
+    "holdButton": "SIMPAN (H)",
+    "controls": "Kontrol",
+    "back": "Kembali"
+  },
+  "pause": {
+    "title": "Jeda",
+    "resume": "Lanjutkan",
+    "quit": "Menu"
+  },
+  "gameover": {
+    "title": "Permainan Berakhir",
+    "score": "Skor",
+    "level": "Tingkat",
+    "best": "Terbaik",
+    "newRecord": "🎉 Rekor Baru!",
+    "retry": "Coba Lagi",
+    "share": "📤 Bagikan",
+    "menu": "🏠 Menu"
+  },
+  "screens": {
+    "back": "← Kembali",
+    "stats": "Statistik"
+  },
+  "ad": {
+    "placeholder": "Ruang Iklan",
+    "placeholder_interstitial": "Ruang Iklan (Layar Penuh)",
+    "label": "Iklan",
+    "countdown": "Tutup dalam",
+    "close": "✕ Tutup"
+  },
+  "recommendations": {
+    "title": "Coba Permainan Ini Juga"
+  }
+}

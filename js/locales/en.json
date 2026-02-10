@@ -1,0 +1,50 @@
+{
+  "app": {
+    "loading": "Loading..."
+  },
+  "menu": {
+    "subtitle": "Classic Block Puzzle",
+    "highScore": "High Score",
+    "startGame": "Start Game",
+    "stats": "📊 Statistics",
+    "hint": "Use arrow keys or swipe to play",
+    "home": "DopaBrain Home"
+  },
+  "game": {
+    "tapToStart": "Tap to start!",
+    "next": "Next",
+    "hold": "Hold",
+    "holdButton": "HOLD (H)",
+    "controls": "Controls",
+    "back": "Go Back"
+  },
+  "pause": {
+    "title": "Paused",
+    "resume": "Resume",
+    "quit": "Menu"
+  },
+  "gameover": {
+    "title": "Game Over",
+    "score": "Score",
+    "level": "Level",
+    "best": "Best",
+    "newRecord": "🎉 New Record!",
+    "retry": "Retry",
+    "share": "📤 Share",
+    "menu": "🏠 Menu"
+  },
+  "screens": {
+    "back": "← Back",
+    "stats": "Statistics"
+  },
+  "ad": {
+    "placeholder": "Ad Space",
+    "placeholder_interstitial": "Ad Space (Full Screen)",
+    "label": "Advertisement",
+    "countdown": "Close in",
+    "close": "✕ Close"
+  },
+  "recommendations": {
+    "title": "Try These Games Too"
+  }
+}

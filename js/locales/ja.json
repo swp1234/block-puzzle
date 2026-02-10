@@ -1,0 +1,50 @@
+{
+  "app": {
+    "loading": "読み込み中..."
+  },
+  "menu": {
+    "subtitle": "クラシックブロックパズル",
+    "highScore": "ハイスコア",
+    "startGame": "ゲーム開始",
+    "stats": "📊 統計",
+    "hint": "矢印キーまたはスワイプで操作",
+    "home": "DopaBrain ホーム"
+  },
+  "game": {
+    "tapToStart": "タップして開始！",
+    "next": "次へ",
+    "hold": "保存",
+    "holdButton": "保存 (H)",
+    "controls": "操作",
+    "back": "戻る"
+  },
+  "pause": {
+    "title": "一時停止",
+    "resume": "再開",
+    "quit": "メニュー"
+  },
+  "gameover": {
+    "title": "ゲームオーバー",
+    "score": "スコア",
+    "level": "レベル",
+    "best": "ベストスコア",
+    "newRecord": "🎉 新記録！",
+    "retry": "リトライ",
+    "share": "📤 シェア",
+    "menu": "🏠 メニュー"
+  },
+  "screens": {
+    "back": "← 戻る",
+    "stats": "統計"
+  },
+  "ad": {
+    "placeholder": "広告スペース",
+    "placeholder_interstitial": "広告スペース（フルスクリーン）",
+    "label": "広告",
+    "countdown": "秒後に閉じる",
+    "close": "✕ 閉じる"
+  },
+  "recommendations": {
+    "title": "他のゲームもプレイ"
+  }
+}

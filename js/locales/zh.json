@@ -1,0 +1,50 @@
+{
+  "app": {
+    "loading": "正在加载..."
+  },
+  "menu": {
+    "subtitle": "经典方块拼图",
+    "highScore": "最高分数",
+    "startGame": "开始游戏",
+    "stats": "📊 统计",
+    "hint": "使用方向键或滑动操作",
+    "home": "DopaBrain 首页"
+  },
+  "game": {
+    "tapToStart": "点击开始！",
+    "next": "下一个",
+    "hold": "保存",
+    "holdButton": "保存 (H)",
+    "controls": "控制",
+    "back": "返回"
+  },
+  "pause": {
+    "title": "暂停",
+    "resume": "继续",
+    "quit": "菜单"
+  },
+  "gameover": {
+    "title": "游戏结束",
+    "score": "分数",
+    "level": "等级",
+    "best": "最高分",
+    "newRecord": "🎉 新记录！",
+    "retry": "重试",
+    "share": "📤 分享",
+    "menu": "🏠 菜单"
+  },
+  "screens": {
+    "back": "← 返回",
+    "stats": "统计"
+  },
+  "ad": {
+    "placeholder": "广告区域",
+    "placeholder_interstitial": "广告区域（全屏）",
+    "label": "广告",
+    "countdown": "秒后关闭",
+    "close": "✕ 关闭"
+  },
+  "recommendations": {
+    "title": "也试试这些游戏"
+  }
+}

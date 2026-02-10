@@ -1,0 +1,50 @@
+{
+  "app": {
+    "loading": "Yükleniyor..."
+  },
+  "menu": {
+    "subtitle": "Klasik Blok Bulmacası",
+    "highScore": "En Yüksek Puan",
+    "startGame": "Oyunu Başlat",
+    "stats": "📊 İstatistikler",
+    "hint": "Oynamak için okları veya kaydırma kullanın",
+    "home": "DopaBrain Anasayfa"
+  },
+  "game": {
+    "tapToStart": "Başlamak için dokunun!",
+    "next": "Sonraki",
+    "hold": "Sakla",
+    "holdButton": "SAKLA (H)",
+    "controls": "Kontroller",
+    "back": "Geri"
+  },
+  "pause": {
+    "title": "Duraklatıldı",
+    "resume": "Devam Et",
+    "quit": "Menü"
+  },
+  "gameover": {
+    "title": "Oyun Bitti",
+    "score": "Puan",
+    "level": "Seviye",
+    "best": "En İyi",
+    "newRecord": "🎉 Yeni Rekor!",
+    "retry": "Tekrar Dene",
+    "share": "📤 Paylaş",
+    "menu": "🏠 Menü"
+  },
+  "screens": {
+    "back": "← Geri",
+    "stats": "İstatistikler"
+  },
+  "ad": {
+    "placeholder": "Reklam Alanı",
+    "placeholder_interstitial": "Reklam Alanı (Tam Ekran)",
+    "label": "Reklam",
+    "countdown": "Kapat:",
+    "close": "✕ Kapat"
+  },
+  "recommendations": {
+    "title": "Bu Oyunları Da Deneyin"
+  }
+}

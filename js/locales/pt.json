@@ -1,0 +1,50 @@
+{
+  "app": {
+    "loading": "Carregando..."
+  },
+  "menu": {
+    "subtitle": "Quebra-Cabeça de Blocos Clássico",
+    "highScore": "Pontuação Máxima",
+    "startGame": "Iniciar Jogo",
+    "stats": "📊 Estatísticas",
+    "hint": "Use setas ou deslize para jogar",
+    "home": "Início DopaBrain"
+  },
+  "game": {
+    "tapToStart": "Toque para começar!",
+    "next": "Próximo",
+    "hold": "Guardar",
+    "holdButton": "GUARDAR (H)",
+    "controls": "Controles",
+    "back": "Voltar"
+  },
+  "pause": {
+    "title": "Pausa",
+    "resume": "Retomar",
+    "quit": "Menu"
+  },
+  "gameover": {
+    "title": "Fim do Jogo",
+    "score": "Pontuação",
+    "level": "Nível",
+    "best": "Melhor",
+    "newRecord": "🎉 Novo Recorde!",
+    "retry": "Tentar Novamente",
+    "share": "📤 Compartilhar",
+    "menu": "🏠 Menu"
+  },
+  "screens": {
+    "back": "← Voltar",
+    "stats": "Estatísticas"
+  },
+  "ad": {
+    "placeholder": "Espaço Publicitário",
+    "placeholder_interstitial": "Espaço Publicitário (Tela Cheia)",
+    "label": "Publicidade",
+    "countdown": "Fechar em",
+    "close": "✕ Fechar"
+  },
+  "recommendations": {
+    "title": "Tente Estes Jogos Também"
+  }
+}
