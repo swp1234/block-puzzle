@@ -122,6 +122,17 @@ class BlockPuzzle {
             statsContent: document.getElementById('stats-content'),
             menuHighscore: document.getElementById('menu-highscore')
         };
+
+        // Validate critical DOM elements
+        if (!this.elements.btnStart) {
+            console.error('Critical DOM element btn-start not found!');
+        }
+        if (!this.elements.gameScreen) {
+            console.error('Critical DOM element game-screen not found!');
+        }
+        if (!this.elements.menuScreen) {
+            console.error('Critical DOM element menu-screen not found!');
+        }
     }
 
     setupCanvas() {
@@ -165,39 +176,80 @@ class BlockPuzzle {
     }
 
     setupEventListeners() {
-        // Menu
-        this.elements.btnStart.addEventListener('click', () => this.startGame());
-        this.elements.btnStats.addEventListener('click', () => this.showStats());
-        this.elements.btnStatsBack.addEventListener('click', () => this.hideStats());
+        // Menu - Add null checks
+        if (this.elements.btnStart) {
+            this.elements.btnStart.addEventListener('click', () => this.startGame());
+        } else {
+            console.error('btnStart element not found for event listener');
+        }
+
+        if (this.elements.btnStats) {
+            this.elements.btnStats.addEventListener('click', () => this.showStats());
+        }
+
+        if (this.elements.btnStatsBack) {
+            this.elements.btnStatsBack.addEventListener('click', () => this.hideStats());
+        }
 
         // Game Controls
-        this.elements.btnPause.addEventListener('click', () => this.togglePause());
-        this.elements.btnResume.addEventListener('click', () => this.togglePause());
-        this.elements.btnQuit.addEventListener('click', () => this.quitGame());
-        this.elements.btnRetry.addEventListener('click', () => this.startGame());
-        this.elements.btnMenu.addEventListener('click', () => this.gotoMenu());
-        this.elements.btnShare.addEventListener('click', () => this.shareScore());
+        if (this.elements.btnPause) {
+            this.elements.btnPause.addEventListener('click', () => this.togglePause());
+        }
+
+        if (this.elements.btnResume) {
+            this.elements.btnResume.addEventListener('click', () => this.togglePause());
+        }
+
+        if (this.elements.btnQuit) {
+            this.elements.btnQuit.addEventListener('click', () => this.quitGame());
+        }
+
+        if (this.elements.btnRetry) {
+            this.elements.btnRetry.addEventListener('click', () => this.startGame());
+        }
+
+        if (this.elements.btnMenu) {
+            this.elements.btnMenu.addEventListener('click', () => this.gotoMenu());
+        }
+
+        if (this.elements.btnShare) {
+            this.elements.btnShare.addEventListener('click', () => this.shareScore());
+        }
 
         // Hold
-        this.elements.btnHold.addEventListener('click', () => this.holdBlockAction());
+        if (this.elements.btnHold) {
+            this.elements.btnHold.addEventListener('click', () => this.holdBlockAction());
+        }
 
         // Mobile Buttons
-        this.elements.btnLeft.addEventListener('mousedown', () => this.startMoving(-1));
-        this.elements.btnLeft.addEventListener('mouseup', () => this.stopMoving());
-        this.elements.btnLeft.addEventListener('touchstart', (e) => { e.preventDefault(); this.startMoving(-1); });
-        this.elements.btnLeft.addEventListener('touchend', (e) => { e.preventDefault(); this.stopMoving(); });
+        if (this.elements.btnLeft) {
+            this.elements.btnLeft.addEventListener('mousedown', () => this.startMoving(-1));
+            this.elements.btnLeft.addEventListener('mouseup', () => this.stopMoving());
+            this.elements.btnLeft.addEventListener('touchstart', (e) => { e.preventDefault(); this.startMoving(-1); });
+            this.elements.btnLeft.addEventListener('touchend', (e) => { e.preventDefault(); this.stopMoving(); });
+        }
 
-        this.elements.btnRight.addEventListener('mousedown', () => this.startMoving(1));
-        this.elements.btnRight.addEventListener('mouseup', () => this.stopMoving());
-        this.elements.btnRight.addEventListener('touchstart', (e) => { e.preventDefault(); this.startMoving(1); });
-        this.elements.btnRight.addEventListener('touchend', (e) => { e.preventDefault(); this.stopMoving(); });
+        if (this.elements.btnRight) {
+            this.elements.btnRight.addEventListener('mousedown', () => this.startMoving(1));
+            this.elements.btnRight.addEventListener('mouseup', () => this.stopMoving());
+            this.elements.btnRight.addEventListener('touchstart', (e) => { e.preventDefault(); this.startMoving(1); });
+            this.elements.btnRight.addEventListener('touchend', (e) => { e.preventDefault(); this.stopMoving(); });
+        }
 
-        this.elements.btnRotate.addEventListener('click', () => this.rotate());
-        this.elements.btnDrop.addEventListener('mousedown', () => { this.isSoftDropping = true; });
-        this.elements.btnDrop.addEventListener('mouseup', () => { this.isSoftDropping = false; });
-        this.elements.btnDrop.addEventListener('touchstart', (e) => { e.preventDefault(); this.isSoftDropping = true; });
-        this.elements.btnDrop.addEventListener('touchend', (e) => { e.preventDefault(); this.isSoftDropping = false; });
-        this.elements.btnHardDrop.addEventListener('click', () => this.hardDrop());
+        if (this.elements.btnRotate) {
+            this.elements.btnRotate.addEventListener('click', () => this.rotate());
+        }
+
+        if (this.elements.btnDrop) {
+            this.elements.btnDrop.addEventListener('mousedown', () => { this.isSoftDropping = true; });
+            this.elements.btnDrop.addEventListener('mouseup', () => { this.isSoftDropping = false; });
+            this.elements.btnDrop.addEventListener('touchstart', (e) => { e.preventDefault(); this.isSoftDropping = true; });
+            this.elements.btnDrop.addEventListener('touchend', (e) => { e.preventDefault(); this.isSoftDropping = false; });
+        }
+
+        if (this.elements.btnHardDrop) {
+            this.elements.btnHardDrop.addEventListener('click', () => this.hardDrop());
+        }
 
         // Keyboard
         document.addEventListener('keydown', (e) => this.handleKeyDown(e));
@@ -296,33 +348,42 @@ class BlockPuzzle {
     }
 
     startGame() {
-        this.grid = this.createEmptyGrid();
-        this.score = 0;
-        // Improved: Start with slower speed (900ms) for easy early game
-        this.dropSpeed = 900;
-        this.level = 1;
-        this.lines = 0;
-        this.combo = 0;
-        this.dropSpeed = 1000;
-        this.dropCounter = 0;
-        this.lastDropTime = Date.now();
-        this.canHold = true;
-        this.heldBlock = null;
-        this.gameStarted = false;
-        this.gamePaused = false;
-        this.isSoftDropping = false;
+        console.log('startGame() called');
+        try {
+            this.grid = this.createEmptyGrid();
+            this.score = 0;
+            // Improved: Start with slower speed (900ms) for easy early game
+            this.dropSpeed = 900;
+            this.level = 1;
+            this.lines = 0;
+            this.combo = 0;
+            this.dropSpeed = 1000;
+            this.dropCounter = 0;
+            this.lastDropTime = Date.now();
+            this.canHold = true;
+            this.heldBlock = null;
+            this.gameStarted = false;
+            this.gamePaused = false;
+            this.isSoftDropping = false;
 
-        this.nextBlocks = [];
-        this.spawnNextBlocks();
-        this.spawnBlock();
+            this.nextBlocks = [];
+            this.spawnNextBlocks();
+            this.spawnBlock();
 
-        // Show game screen
-        this.showScreen('game-screen');
-        this.gameRunning = true;
-        this.elements.tapHint.classList.remove('hidden');
+            // Show game screen
+            this.showScreen('game-screen');
+            this.gameRunning = true;
 
-        // Start game loop
-        this.gameLoop();
+            if (this.elements.tapHint) {
+                this.elements.tapHint.classList.remove('hidden');
+            }
+
+            // Start game loop
+            this.gameLoop();
+            console.log('Game started successfully');
+        } catch (e) {
+            console.error('Error in startGame():', e);
+        }
     }
 
     gameLoop() {
@@ -634,14 +695,21 @@ class BlockPuzzle {
     }
 
     showScreen(screenId) {
-        document.querySelectorAll('.screen').forEach(s => {
-            s.classList.remove('active');
-            s.classList.add('hidden');
-        });
-        const screen = document.getElementById(screenId);
-        if (screen) {
-            screen.classList.add('active');
-            screen.classList.remove('hidden');
+        try {
+            document.querySelectorAll('.screen').forEach(s => {
+                s.classList.remove('active');
+                s.classList.add('hidden');
+            });
+            const screen = document.getElementById(screenId);
+            if (screen) {
+                screen.classList.add('active');
+                screen.classList.remove('hidden');
+                console.log(`Screen switched to: ${screenId}`);
+            } else {
+                console.error(`Screen element not found: ${screenId}`);
+            }
+        } catch (e) {
+            console.error(`Error in showScreen(${screenId}):`, e);
         }
     }
 
@@ -792,25 +860,46 @@ class BlockPuzzle {
 
 // Initialize game when DOM is ready
 window.addEventListener('load', () => {
-    // Initialize i18n
-    if (window.i18n) {
-        window.i18n.initI18n().then(() => {
-            // Create game instance
-            window.game = new BlockPuzzle();
+    console.log('Window load event fired');
+    try {
+        // Initialize i18n
+        if (window.i18n) {
+            console.log('i18n found, initializing...');
+            window.i18n.initI18n().then(() => {
+                console.log('i18n initialized successfully');
+                // Create game instance
+                window.game = new BlockPuzzle();
+                console.log('BlockPuzzle instance created');
 
-            // Hide loader
+                // Hide loader
+                const loader = document.getElementById('app-loader');
+                if (loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                    }, 300);
+                }
+            }).catch((err) => {
+                console.error('i18n initialization failed:', err);
+                // Fallback to game creation
+                window.game = new BlockPuzzle();
+                document.getElementById('app-loader').style.display = 'none';
+            });
+        } else {
+            // Fallback if i18n fails
+            console.warn('i18n not found, creating BlockPuzzle without i18n');
+            window.game = new BlockPuzzle();
             const loader = document.getElementById('app-loader');
             if (loader) {
-                loader.style.opacity = '0';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 300);
+                loader.style.display = 'none';
             }
-        });
-    } else {
-        // Fallback if i18n fails
-        window.game = new BlockPuzzle();
-        document.getElementById('app-loader').style.display = 'none';
+        }
+    } catch (e) {
+        console.error('Error in window load handler:', e);
+        const loader = document.getElementById('app-loader');
+        if (loader) {
+            loader.style.display = 'none';
+        }
     }
 });
 
