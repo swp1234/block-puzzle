@@ -136,9 +136,9 @@ html, body {
 }
 
 .screen.active {
-    display: flex;
-    opacity: 1;
-    pointer-events: auto;
+    display: flex !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
 
 .screen.hidden {
