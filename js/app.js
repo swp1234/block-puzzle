@@ -151,15 +151,30 @@ class BlockPuzzle {
     }
 
     resizeCanvas() {
-        const container = document.querySelector('.game-main');
-        if (!container) return;
-
-        const rect = container.getBoundingClientRect();
         const dpr = window.devicePixelRatio || 1;
+        const isMobile = window.innerWidth <= 600;
 
-        // Calculate block size to fit container (no artificial cap)
-        const blockSizeW = rect.width / this.gridWidth;
-        const blockSizeH = rect.height / this.gridHeight;
+        // Calculate available space from viewport
+        const hud = document.querySelector('.game-hud');
+        const hudHeight = hud ? hud.offsetHeight : 50;
+        const padding = isMobile ? 12 : 24;
+
+        let availableHeight, availableWidth;
+        if (isMobile) {
+            // Mobile: game above, sidebar below (~35% for sidebar)
+            availableHeight = (window.innerHeight - hudHeight - padding) * 0.65;
+            availableWidth = window.innerWidth - padding;
+        } else {
+            // Desktop: game left, sidebar right
+            const sidebarWidth = 200;
+            const gap = 16;
+            availableHeight = window.innerHeight - hudHeight - padding;
+            availableWidth = window.innerWidth - sidebarWidth - padding - gap;
+        }
+
+        // Height-driven block size (board is 10x20, always height-limited)
+        const blockSizeH = availableHeight / this.gridHeight;
+        const blockSizeW = availableWidth / this.gridWidth;
         this.blockSize = Math.floor(Math.min(blockSizeW, blockSizeH));
         this.blockSize = Math.max(20, this.blockSize);
 
@@ -388,6 +403,9 @@ class BlockPuzzle {
             // Show game screen
             this.showScreen('game-screen');
             this.gameRunning = true;
+
+            // Resize canvas after screen is visible
+            requestAnimationFrame(() => this.resizeCanvas());
 
             if (this.elements.tapHint) {
                 this.elements.tapHint.classList.remove('hidden');
