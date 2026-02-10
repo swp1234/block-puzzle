@@ -44,6 +44,15 @@
     "countdown": "के बाद बंद करें",
     "close": "✕ बंद करें"
   },
+  "stats_detail": {
+    "highScore": "सर्वोच्च स्कोर",
+    "currentScore": "वर्तमान स्कोर",
+    "linesCleared": "क्लियर लाइन",
+    "currentLevel": "वर्तमान स्तर"
+  },
+  "share_msg": {
+    "text": "🧩 ब्लॉक पज़ल: {score} अंक!\nस्तर: {level}\n\n{url}"
+  },
   "recommendations": {
     "title": "ये खेल भी आजमाएं"
   }

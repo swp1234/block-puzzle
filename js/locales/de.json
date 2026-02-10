@@ -44,6 +44,15 @@
     "countdown": "Schließen in",
     "close": "✕ Schließen"
   },
+  "stats_detail": {
+    "highScore": "Highscore",
+    "currentScore": "Aktueller Punktestand",
+    "linesCleared": "Gelöschte Zeilen",
+    "currentLevel": "Aktuelles Level"
+  },
+  "share_msg": {
+    "text": "🧩 Block Puzzle: {score} Punkte!\nLevel: {level}\n\n{url}"
+  },
   "recommendations": {
     "title": "Versuchen Sie Auch Diese Spiele"
   }

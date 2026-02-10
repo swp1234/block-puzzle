@@ -44,6 +44,15 @@
     "countdown": "초 후 닫기",
     "close": "✕ 닫기"
   },
+  "stats_detail": {
+    "highScore": "최고 점수",
+    "currentScore": "현재 게임 점수",
+    "linesCleared": "클리어 라인",
+    "currentLevel": "현재 레벨"
+  },
+  "share_msg": {
+    "text": "🧩 Block Puzzle에서 {score}점!\n레벨: {level}\n\n{url}"
+  },
   "recommendations": {
     "title": "이것도 해보세요"
   }

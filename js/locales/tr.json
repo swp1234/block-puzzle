@@ -44,6 +44,15 @@
     "countdown": "Kapat:",
     "close": "✕ Kapat"
   },
+  "stats_detail": {
+    "highScore": "En Yüksek Skor",
+    "currentScore": "Mevcut Skor",
+    "linesCleared": "Temizlenen Satır",
+    "currentLevel": "Mevcut Seviye"
+  },
+  "share_msg": {
+    "text": "🧩 Block Puzzle: {score} puan!\nSeviye: {level}\n\n{url}"
+  },
   "recommendations": {
     "title": "Bu Oyunları Da Deneyin"
   }

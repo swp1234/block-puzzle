@@ -44,6 +44,15 @@
     "countdown": "Cerrar en",
     "close": "✕ Cerrar"
   },
+  "stats_detail": {
+    "highScore": "Puntuación máxima",
+    "currentScore": "Puntuación actual",
+    "linesCleared": "Líneas eliminadas",
+    "currentLevel": "Nivel actual"
+  },
+  "share_msg": {
+    "text": "🧩 Block Puzzle: ¡{score} pts!\nNivel: {level}\n\n{url}"
+  },
   "recommendations": {
     "title": "Prueba Estos Juegos También"
   }

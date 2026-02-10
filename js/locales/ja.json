@@ -44,6 +44,15 @@
     "countdown": "秒後に閉じる",
     "close": "✕ 閉じる"
   },
+  "stats_detail": {
+    "highScore": "ハイスコア",
+    "currentScore": "現在のスコア",
+    "linesCleared": "クリアライン",
+    "currentLevel": "現在のレベル"
+  },
+  "share_msg": {
+    "text": "🧩 ブロックパズル：{score}点！\nレベル：{level}\n\n{url}"
+  },
   "recommendations": {
     "title": "他のゲームもプレイ"
   }

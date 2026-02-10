@@ -670,19 +670,19 @@ class BlockPuzzle {
     showStats() {
         const stats = `
             <div class="stat-item">
-                <span class="stat-label">최고 점수</span>
+                <span class="stat-label">${window.i18n?.t('stats_detail.highScore') || 'High Score'}</span>
                 <span class="stat-value">${this.highScore}</span>
             </div>
             <div class="stat-item">
-                <span class="stat-label">현재 게임 점수</span>
+                <span class="stat-label">${window.i18n?.t('stats_detail.currentScore') || 'Current Score'}</span>
                 <span class="stat-value">${this.score}</span>
             </div>
             <div class="stat-item">
-                <span class="stat-label">클리어 라인</span>
+                <span class="stat-label">${window.i18n?.t('stats_detail.linesCleared') || 'Lines Cleared'}</span>
                 <span class="stat-value">${this.lines}</span>
             </div>
             <div class="stat-item">
-                <span class="stat-label">현재 레벨</span>
+                <span class="stat-label">${window.i18n?.t('stats_detail.currentLevel') || 'Current Level'}</span>
                 <span class="stat-value">Lv. ${this.level}</span>
             </div>
         `;
@@ -714,7 +714,8 @@ class BlockPuzzle {
     }
 
     shareScore() {
-        const text = `🧩 Block Puzzle에서 ${this.score}점을 얻었어요!\n레벨: ${this.level}\n\n${location.href}`;
+        const shareTemplate = window.i18n?.t('share_msg.text') || '🧩 Block Puzzle: {score} pts!\nLevel: {level}\n\n{url}';
+        const text = shareTemplate.replace('{score}', this.score).replace('{level}', this.level).replace('{url}', location.href);
 
         if (navigator.share) {
             navigator.share({

@@ -44,6 +44,15 @@
     "countdown": "秒后关闭",
     "close": "✕ 关闭"
   },
+  "stats_detail": {
+    "highScore": "最高分",
+    "currentScore": "当前分数",
+    "linesCleared": "消除行数",
+    "currentLevel": "当前等级"
+  },
+  "share_msg": {
+    "text": "🧩 方块拼图：{score}分！\n等级：{level}\n\n{url}"
+  },
   "recommendations": {
     "title": "也试试这些游戏"
   }

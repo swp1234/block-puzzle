@@ -44,6 +44,15 @@
     "countdown": "Fechar em",
     "close": "✕ Fechar"
   },
+  "stats_detail": {
+    "highScore": "Recorde",
+    "currentScore": "Pontuação atual",
+    "linesCleared": "Linhas limpas",
+    "currentLevel": "Nível atual"
+  },
+  "share_msg": {
+    "text": "🧩 Block Puzzle: {score} pts!\nNível: {level}\n\n{url}"
+  },
   "recommendations": {
     "title": "Tente Estes Jogos Também"
   }

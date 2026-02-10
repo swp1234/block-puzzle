@@ -44,6 +44,15 @@
     "countdown": "Закрыть через",
     "close": "✕ Закрыть"
   },
+  "stats_detail": {
+    "highScore": "Рекорд",
+    "currentScore": "Текущий счёт",
+    "linesCleared": "Линий очищено",
+    "currentLevel": "Текущий уровень"
+  },
+  "share_msg": {
+    "text": "🧩 Блок Пазл: {score} очков!\nУровень: {level}\n\n{url}"
+  },
   "recommendations": {
     "title": "Попробуйте эти игры"
   }

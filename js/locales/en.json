@@ -44,6 +44,15 @@
     "countdown": "Close in",
     "close": "✕ Close"
   },
+  "stats_detail": {
+    "highScore": "High Score",
+    "currentScore": "Current Score",
+    "linesCleared": "Lines Cleared",
+    "currentLevel": "Current Level"
+  },
+  "share_msg": {
+    "text": "🧩 Block Puzzle: {score} pts!\nLevel: {level}\n\n{url}"
+  },
   "recommendations": {
     "title": "Try These Games Too"
   }

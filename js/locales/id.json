@@ -44,6 +44,15 @@
     "countdown": "Tutup dalam",
     "close": "✕ Tutup"
   },
+  "stats_detail": {
+    "highScore": "Skor Tertinggi",
+    "currentScore": "Skor Saat Ini",
+    "linesCleared": "Baris Dihapus",
+    "currentLevel": "Level Saat Ini"
+  },
+  "share_msg": {
+    "text": "🧩 Block Puzzle: {score} poin!\nLevel: {level}\n\n{url}"
+  },
   "recommendations": {
     "title": "Coba Permainan Ini Juga"
   }
