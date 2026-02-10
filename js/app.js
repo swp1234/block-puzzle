@@ -155,23 +155,38 @@ class BlockPuzzle {
         if (!container) return;
 
         const rect = container.getBoundingClientRect();
-        const size = Math.min(rect.width, rect.height);
+        const dpr = window.devicePixelRatio || 1;
 
-        // Calculate block size to fit container
-        this.blockSize = Math.floor(size / this.gridHeight);
-        this.blockSize = Math.max(20, Math.min(40, this.blockSize));
+        // Calculate block size to fit container (no artificial cap)
+        const blockSizeW = rect.width / this.gridWidth;
+        const blockSizeH = rect.height / this.gridHeight;
+        this.blockSize = Math.floor(Math.min(blockSizeW, blockSizeH));
+        this.blockSize = Math.max(20, this.blockSize);
 
         const width = this.gridWidth * this.blockSize;
         const height = this.gridHeight * this.blockSize;
 
-        this.canvas.width = width;
-        this.canvas.height = height;
+        // High-DPI canvas for crisp rendering
+        this.canvas.width = width * dpr;
+        this.canvas.height = height * dpr;
+        this.canvas.style.width = width + 'px';
+        this.canvas.style.height = height + 'px';
+        this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-        this.nextCanvas.width = 80;
-        this.nextCanvas.height = 80;
-        this.holdCanvas.width = 80;
-        this.holdCanvas.height = 80;
+        const previewSize = Math.max(80, Math.floor(this.blockSize * 4));
+        this.nextCanvas.width = previewSize * dpr;
+        this.nextCanvas.height = previewSize * dpr;
+        this.nextCanvas.style.width = previewSize + 'px';
+        this.nextCanvas.style.height = previewSize + 'px';
+        this.nextCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
+        this.holdCanvas.width = previewSize * dpr;
+        this.holdCanvas.height = previewSize * dpr;
+        this.holdCanvas.style.width = previewSize + 'px';
+        this.holdCanvas.style.height = previewSize + 'px';
+        this.holdCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        this._previewSize = previewSize;
         this.render();
     }
 
@@ -734,9 +749,11 @@ class BlockPuzzle {
     }
 
     render() {
-        // Game Canvas
+        // Game Canvas (use logical size, not DPR-scaled)
+        const logicalW = this.gridWidth * this.blockSize;
+        const logicalH = this.gridHeight * this.blockSize;
         this.ctx.fillStyle = '#000';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.fillRect(0, 0, logicalW, logicalH);
 
         // Grid
         this.ctx.strokeStyle = 'rgba(155, 89, 182, 0.1)';
@@ -744,13 +761,13 @@ class BlockPuzzle {
         for (let i = 0; i <= this.gridWidth; i++) {
             this.ctx.beginPath();
             this.ctx.moveTo(i * this.blockSize, 0);
-            this.ctx.lineTo(i * this.blockSize, this.canvas.height);
+            this.ctx.lineTo(i * this.blockSize, logicalH);
             this.ctx.stroke();
         }
         for (let i = 0; i <= this.gridHeight; i++) {
             this.ctx.beginPath();
             this.ctx.moveTo(0, i * this.blockSize);
-            this.ctx.lineTo(this.canvas.width, i * this.blockSize);
+            this.ctx.lineTo(logicalW, i * this.blockSize);
             this.ctx.stroke();
         }
 
@@ -786,15 +803,16 @@ class BlockPuzzle {
     }
 
     renderNextPreview() {
+        const ps = this._previewSize || 80;
         this.nextCtx.fillStyle = '#000';
-        this.nextCtx.fillRect(0, 0, this.nextCanvas.width, this.nextCanvas.height);
+        this.nextCtx.fillRect(0, 0, ps, ps);
 
         if (this.nextBlocks.length > 0) {
             const blockType = this.nextBlocks[0];
             const shape = BLOCK_SHAPES[blockType][0];
-            const blockSize = 20;
-            const offsetX = (this.nextCanvas.width - shape[0].length * blockSize) / 2;
-            const offsetY = (this.nextCanvas.height - shape.length * blockSize) / 2;
+            const blockSize = Math.floor(ps / 5);
+            const offsetX = (ps - shape[0].length * blockSize) / 2;
+            const offsetY = (ps - shape.length * blockSize) / 2;
 
             for (let row = 0; row < shape.length; row++) {
                 for (let col = 0; col < shape[row].length; col++) {
@@ -809,14 +827,15 @@ class BlockPuzzle {
     }
 
     renderHoldPreview() {
+        const ps = this._previewSize || 80;
         this.holdCtx.fillStyle = '#000';
-        this.holdCtx.fillRect(0, 0, this.holdCanvas.width, this.holdCanvas.height);
+        this.holdCtx.fillRect(0, 0, ps, ps);
 
         if (this.heldBlock) {
             const shape = BLOCK_SHAPES[this.heldBlock][0];
-            const blockSize = 20;
-            const offsetX = (this.holdCanvas.width - shape[0].length * blockSize) / 2;
-            const offsetY = (this.holdCanvas.height - shape.length * blockSize) / 2;
+            const blockSize = Math.floor(ps / 5);
+            const offsetX = (ps - shape[0].length * blockSize) / 2;
+            const offsetY = (ps - shape.length * blockSize) / 2;
 
             for (let row = 0; row < shape.length; row++) {
                 for (let col = 0; col < shape[row].length; col++) {
