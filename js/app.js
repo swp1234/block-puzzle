@@ -378,7 +378,7 @@ class BlockPuzzle {
     }
 
     startGame() {
-        console.log('startGame() called');
+        if(typeof gtag!=='undefined') gtag('event','game_start');
         try {
             this.grid = this.createEmptyGrid();
             this.score = 0;
@@ -653,6 +653,7 @@ class BlockPuzzle {
     }
 
     gameOver() {
+        if(typeof gtag!=='undefined') gtag('event','game_over',{score:this.score});
         this.gameRunning = false;
 
         // Add score to leaderboard
@@ -894,6 +895,21 @@ class BlockPuzzle {
         ctx.fillRect(x + 1, y + 1, size - 2, size - 2);
         ctx.shadowBlur = 0;
     }
+}
+
+// Theme toggle functionality
+const themeToggle = document.getElementById('theme-toggle');
+if (themeToggle) {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    themeToggle.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+    themeToggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        themeToggle.textContent = next === 'light' ? '🌙' : '☀️';
+    });
 }
 
 // Initialize game when DOM is ready
