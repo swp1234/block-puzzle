@@ -2,7 +2,7 @@
  * Service Worker - Offline Support & Caching
  */
 
-const CACHE_NAME = 'block-puzzle-v1';
+const CACHE_NAME = 'block-puzzle-v2';
 const ASSETS_TO_CACHE = [
     '/',
     'index.html',
@@ -57,45 +57,27 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - network first, fallback to cache
 self.addEventListener('fetch', (event) => {
-    // Skip non-GET requests
-    if (event.request.method !== 'GET') {
-        return;
-    }
+    if (event.request.method !== 'GET') return;
+
+    // Skip external requests (ads, analytics, etc.)
+    if (!event.request.url.startsWith(self.location.origin)) return;
 
     event.respondWith(
-        caches.match(event.request)
+        fetch(event.request)
             .then((response) => {
-                // Return cached response if available
-                if (response) {
-                    return response;
-                }
-
-                // Fetch from network
-                return fetch(event.request)
-                    .then((response) => {
-                        // Don't cache non-successful responses
-                        if (!response || response.status !== 200 || response.type === 'error') {
-                            return response;
-                        }
-
-                        // Clone the response
-                        const responseToCache = response.clone();
-
-                        // Cache successful responses
-                        caches.open(CACHE_NAME)
-                            .then((cache) => {
-                                cache.put(event.request, responseToCache);
-                            });
-
-                        return response;
-                    })
-                    .catch(() => {
-                        // Return cached version if available, otherwise offline page
-                        return caches.match(event.request)
-                            .then((response) => response || new Response('Offline'));
+                if (response && response.status === 200) {
+                    const responseToCache = response.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseToCache);
                     });
+                }
+                return response;
+            })
+            .catch(() => {
+                return caches.match(event.request)
+                    .then((cached) => cached || caches.match('./index.html'));
             })
     );
 });

@@ -172,6 +172,14 @@
                 </div>
 
                 <p class="menu-hint" data-i18n="menu.hint">방향키 또는 스와이프로 조작</p>
+                <div class="keyboard-hints" aria-label="Keyboard shortcuts">
+                    <span class="kbd-hint"><kbd>Arrow</kbd>/<kbd>WASD</kbd> Move</span>
+                    <span class="kbd-hint"><kbd>Up</kbd>/<kbd>Z</kbd> Rotate</span>
+                    <span class="kbd-hint"><kbd>Space</kbd> Drop</span>
+                    <span class="kbd-hint"><kbd>H</kbd> Hold</span>
+                    <span class="kbd-hint"><kbd>P</kbd> Pause</span>
+                    <span class="kbd-hint"><kbd>R</kbd> Restart</span>
+                </div>
 
                 <a href="https://dopabrain.com/portal/" class="home-link" data-i18n="menu.home">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="m15 18-6-6 6-6"></path></svg>
@@ -334,6 +342,31 @@
         }
         .sound-toggle:hover { background: rgba(255,255,255,0.2); }
         .sound-toggle:active { transform: scale(0.95); }
+
+        /* Keyboard shortcut hints */
+        .keyboard-hints {
+            display: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px 12px;
+            margin-top: 12px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+        }
+        @media (min-width: 768px) {
+            .keyboard-hints { display: flex; }
+        }
+        .kbd-hint { white-space: nowrap; }
+        .kbd-hint kbd {
+            display: inline-block;
+            padding: 1px 5px;
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 3px;
+            background: rgba(255,255,255,0.08);
+            font-family: inherit;
+            font-size: 10px;
+            line-height: 1.4;
+        }
     </style>
     <script src="/portal/js/cross-promo.js" defer></script>
 </body>

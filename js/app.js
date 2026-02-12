@@ -320,6 +320,23 @@ class BlockPuzzle {
     }
 
     handleKeyDown(e) {
+        // Global shortcuts (work even when paused or on menu)
+        switch(e.key.toLowerCase()) {
+            case 'p':
+            case 'escape':
+                if (this.gameRunning) {
+                    e.preventDefault();
+                    this.togglePause();
+                }
+                return;
+            case 'r':
+                if (this.gameRunning || document.getElementById('gameover-screen').classList.contains('active')) {
+                    e.preventDefault();
+                    this.startGame();
+                }
+                return;
+        }
+
         if (!this.gameRunning || this.gamePaused) return;
 
         switch(e.key.toLowerCase()) {
