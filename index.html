@@ -125,11 +125,16 @@
         </div>
     </div>
 
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
     <!-- Background Grid -->
     <div class="bg-grid" id="bg-grid"></div>
 
     <!-- Sound Toggle -->
     <button class="sound-toggle" id="sound-toggle" onclick="if(window.sfx)window.sfx.init();const enabled=window.sfx?window.sfx.toggle():false;this.textContent=enabled?'🔊':'🔇';" title="Toggle Sound">🔊</button>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">☀️</button>
 
     <!-- Language Selector -->
     <div class="language-selector">
@@ -137,7 +142,7 @@
         <div class="lang-menu hidden" id="langMenu"></div>
     </div>
 
-    <div class="game-wrapper">
+    <main id="main-content" class="game-wrapper">
         <!-- === MENU SCREEN === -->
         <div class="screen menu-screen active" id="menu-screen">
             <div class="ad-banner ad-top">
@@ -286,7 +291,7 @@
                 <button class="btn-close-ad hidden" id="btn-close-ad" data-i18n="ad.close">✕ 닫기</button>
             </div>
         </div>
-    </div>
+    </main>
 
     <script src="js/storage-manager.js" defer></script>
     <script src="js/leaderboard-manager.js" defer></script>

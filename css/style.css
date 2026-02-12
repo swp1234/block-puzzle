@@ -1,3 +1,20 @@
+/* Skip to main content link for accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--primary-color, #4a90d9);
+    color: #fff;
+    padding: 8px 16px;
+    z-index: 10000;
+    font-size: 14px;
+    border-radius: 0 0 4px 0;
+    transition: top 0.2s;
+}
+.skip-link:focus {
+    top: 0;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -406,6 +423,12 @@ html, body {
     0% { transform: scale(1); box-shadow: 0 8px 20px rgba(155, 89, 182, 0.3); }
     50% { transform: scale(1.03); box-shadow: 0 10px 30px rgba(155, 89, 182, 0.5); }
     100% { transform: scale(1); box-shadow: 0 8px 20px rgba(155, 89, 182, 0.3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-primary {
+        animation: none !important;
+    }
 }
 
 .btn-primary:hover {
