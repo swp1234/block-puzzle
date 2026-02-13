@@ -214,7 +214,16 @@ class BlockPuzzle {
         }
 
         if (this.elements.btnStats) {
-            this.elements.btnStats.addEventListener('click', () => this.showStats());
+            this.elements.btnStats.addEventListener('click', () => {
+                // GA4 engagement event
+                if (!this._engagementFired) {
+                    this._engagementFired = true;
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'engagement', { event_category: 'block_puzzle', event_label: 'first_interaction' });
+                    }
+                }
+                this.showStats();
+            });
         }
 
         if (this.elements.btnStatsBack) {
@@ -396,6 +405,13 @@ class BlockPuzzle {
 
     startGame() {
         if(typeof gtag!=='undefined') gtag('event','game_start');
+        // GA4 engagement event to reduce bounce rate
+        if (!this._engagementFired) {
+            this._engagementFired = true;
+            if (typeof gtag === 'function') {
+                gtag('event', 'engagement', { event_category: 'block_puzzle', event_label: 'first_interaction' });
+            }
+        }
         try {
             this.grid = this.createEmptyGrid();
             this.score = 0;
