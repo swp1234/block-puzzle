@@ -1,6 +1,7 @@
 {
   "app": {
-    "loading": "Yükleniyor..."
+    "loading": "Yükleniyor...",
+    "skipLink": "İçeriğe geç"
   },
   "menu": {
     "subtitle": "Klasik Blok Bulmacası",
@@ -52,6 +53,14 @@
   },
   "share_msg": {
     "text": "🧩 Block Puzzle: {score} puan!\nSeviye: {level}\n\n{url}"
+  },
+  "share": {
+    "twitter": "Twitter",
+    "copyUrl": "📋 URL Kopyala",
+    "copied": "✅ Kopyalandı!"
+  },
+  "hud": {
+    "level": "Sv."
   },
   "recommendations": {
     "title": "Bu Oyunları Da Deneyin"

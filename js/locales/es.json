@@ -1,6 +1,7 @@
 {
   "app": {
-    "loading": "Cargando..."
+    "loading": "Cargando...",
+    "skipLink": "Ir al contenido"
   },
   "menu": {
     "subtitle": "Clásico Puzzle de Bloques",
@@ -52,6 +53,14 @@
   },
   "share_msg": {
     "text": "🧩 Block Puzzle: ¡{score} pts!\nNivel: {level}\n\n{url}"
+  },
+  "share": {
+    "twitter": "Twitter",
+    "copyUrl": "📋 Copiar URL",
+    "copied": "✅ ¡Copiado!"
+  },
+  "hud": {
+    "level": "Niv."
   },
   "recommendations": {
     "title": "Prueba Estos Juegos También"

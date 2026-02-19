@@ -1,6 +1,7 @@
 {
   "app": {
-    "loading": "Memuat..."
+    "loading": "Memuat...",
+    "skipLink": "Lewati ke konten"
   },
   "menu": {
     "subtitle": "Puzzle Blok Klasik",
@@ -52,6 +53,14 @@
   },
   "share_msg": {
     "text": "🧩 Block Puzzle: {score} poin!\nLevel: {level}\n\n{url}"
+  },
+  "share": {
+    "twitter": "Twitter",
+    "copyUrl": "📋 Salin URL",
+    "copied": "✅ Disalin!"
+  },
+  "hud": {
+    "level": "Lv."
   },
   "recommendations": {
     "title": "Coba Permainan Ini Juga"

@@ -1,6 +1,7 @@
 {
   "app": {
-    "loading": "लोड हो रहा है..."
+    "loading": "लोड हो रहा है...",
+    "skipLink": "सामग्री पर जाएं"
   },
   "menu": {
     "subtitle": "क्लासिक ब्लॉक पहेली",
@@ -52,6 +53,14 @@
   },
   "share_msg": {
     "text": "🧩 ब्लॉक पज़ल: {score} अंक!\nस्तर: {level}\n\n{url}"
+  },
+  "share": {
+    "twitter": "ट्विटर",
+    "copyUrl": "📋 URL कॉपी करें",
+    "copied": "✅ कॉपी किया!"
+  },
+  "hud": {
+    "level": "स्तर"
   },
   "recommendations": {
     "title": "ये खेल भी आजमाएं"

@@ -1,6 +1,7 @@
 {
   "app": {
-    "loading": "Загрузка..."
+    "loading": "Загрузка...",
+    "skipLink": "Перейти к содержанию"
   },
   "menu": {
     "subtitle": "Классический блочный пазл",
@@ -52,6 +53,14 @@
   },
   "share_msg": {
     "text": "🧩 Блок Пазл: {score} очков!\nУровень: {level}\n\n{url}"
+  },
+  "share": {
+    "twitter": "Twitter",
+    "copyUrl": "📋 Копировать URL",
+    "copied": "✅ Скопировано!"
+  },
+  "hud": {
+    "level": "Ур."
   },
   "recommendations": {
     "title": "Попробуйте эти игры"

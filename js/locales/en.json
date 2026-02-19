@@ -1,6 +1,7 @@
 {
   "app": {
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "skipLink": "Skip to content"
   },
   "menu": {
     "subtitle": "Classic Block Puzzle",
@@ -52,6 +53,14 @@
   },
   "share_msg": {
     "text": "🧩 Block Puzzle: {score} pts!\nLevel: {level}\n\n{url}"
+  },
+  "share": {
+    "twitter": "Twitter",
+    "copyUrl": "📋 Copy URL",
+    "copied": "✅ Copied!"
+  },
+  "hud": {
+    "level": "Lv."
   },
   "recommendations": {
     "title": "Try These Games Too"

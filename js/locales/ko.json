@@ -1,6 +1,7 @@
 {
   "app": {
-    "loading": "로딩 중..."
+    "loading": "로딩 중...",
+    "skipLink": "본문으로 이동"
   },
   "menu": {
     "subtitle": "클래식 블록 퍼즐",
@@ -52,6 +53,14 @@
   },
   "share_msg": {
     "text": "🧩 Block Puzzle에서 {score}점!\n레벨: {level}\n\n{url}"
+  },
+  "share": {
+    "twitter": "트위터",
+    "copyUrl": "📋 URL 복사",
+    "copied": "✅ 복사됨!"
+  },
+  "hud": {
+    "level": "Lv."
   },
   "recommendations": {
     "title": "이것도 해보세요"

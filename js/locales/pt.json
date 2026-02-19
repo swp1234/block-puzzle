@@ -1,6 +1,7 @@
 {
   "app": {
-    "loading": "Carregando..."
+    "loading": "Carregando...",
+    "skipLink": "Ir para o conteúdo"
   },
   "menu": {
     "subtitle": "Quebra-Cabeça de Blocos Clássico",
@@ -52,6 +53,14 @@
   },
   "share_msg": {
     "text": "🧩 Block Puzzle: {score} pts!\nNível: {level}\n\n{url}"
+  },
+  "share": {
+    "twitter": "Twitter",
+    "copyUrl": "📋 Copiar URL",
+    "copied": "✅ Copiado!"
+  },
+  "hud": {
+    "level": "Nv."
   },
   "recommendations": {
     "title": "Tente Estes Jogos Também"

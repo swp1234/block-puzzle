@@ -682,7 +682,7 @@ class BlockPuzzle {
             this.dropSpeed = Math.max(200, newSpeed);
             if (window.sfx) window.sfx.play('levelup');
         }
-        this.elements.hudLevel.textContent = `Lv. ${this.level}`;
+        this.elements.hudLevel.textContent = `${window.i18n?.t('hud.level') || 'Lv.'} ${this.level}`;
     }
 
     gameOver() {
