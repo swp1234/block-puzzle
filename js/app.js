@@ -765,7 +765,11 @@ class BlockPuzzle {
         // Display leaderboard
         this.displayLeaderboard(leaderboardResult);
 
-        this.showScreen('gameover-screen');
+        if (typeof GameAds !== 'undefined') {
+            GameAds.showInterstitial({ onComplete: () => this.showScreen('gameover-screen') });
+        } else {
+            this.showScreen('gameover-screen');
+        }
     }
 
     togglePause() {
@@ -1100,6 +1104,7 @@ window.addEventListener('load', () => {
                 console.log('i18n initialized successfully');
                 // Create game instance
                 window.game = new BlockPuzzle();
+                if (typeof GameAds !== 'undefined') GameAds.init();
                 if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'block-puzzle', bestScoreKey: 'blockPuzzleHighScore', minTarget: 100 });
                 console.log('BlockPuzzle instance created');
 
@@ -1115,6 +1120,7 @@ window.addEventListener('load', () => {
                 console.error('i18n initialization failed:', err);
                 // Fallback to game creation
                 window.game = new BlockPuzzle();
+                if (typeof GameAds !== 'undefined') GameAds.init();
                 if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'block-puzzle', bestScoreKey: 'blockPuzzleHighScore', minTarget: 100 });
                 document.getElementById('app-loader').style.display = 'none';
             });
@@ -1122,6 +1128,7 @@ window.addEventListener('load', () => {
             // Fallback if i18n fails
             console.warn('i18n not found, creating BlockPuzzle without i18n');
             window.game = new BlockPuzzle();
+            if (typeof GameAds !== 'undefined') GameAds.init();
             if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'block-puzzle', bestScoreKey: 'blockPuzzleHighScore', minTarget: 100 });
             const loader = document.getElementById('app-loader');
             if (loader) {
