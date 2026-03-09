@@ -90,6 +90,19 @@ class BlockPuzzle {
         this.spawnNextBlocks();
         this.setupEventListeners();
         this.spawnBlock();
+
+        // Resume saved game if available
+        if (this.loadGameState()) {
+            this.showScreen('game-screen');
+            this.gameRunning = true;
+            this.gameStarted = true;
+            this.gamePaused = false;
+            this.lastDropTime = Date.now();
+            requestAnimationFrame(() => {
+                this.resizeCanvas();
+                this.gameLoop();
+            });
+        }
     }
 
     setupDOM() {
@@ -416,6 +429,7 @@ class BlockPuzzle {
             }
         }
         try {
+            this.clearSavedState();
             this.grid = this.createEmptyGrid();
             this.score = 0;
             // Improved: Start with slower speed (900ms) for easy early game
@@ -480,6 +494,8 @@ class BlockPuzzle {
                         this.gameOver();
                         return;
                     }
+
+                    this.saveGameState();
                 }
                 this.lastDropTime = now;
             }
@@ -574,6 +590,8 @@ class BlockPuzzle {
         this.spawnBlock();
         if (this.isColliding(this.currentBlock)) {
             this.gameOver();
+        } else {
+            this.saveGameState();
         }
     }
 
@@ -719,6 +737,7 @@ class BlockPuzzle {
     gameOver() {
         if(typeof gtag!=='undefined') gtag('event','game_over',{score:this.score});
         this.gameRunning = false;
+        this.clearSavedState();
 
         // Add score to leaderboard
         const leaderboardResult = this.leaderboard.addScore(this.score, {
@@ -757,6 +776,7 @@ class BlockPuzzle {
 
     quitGame() {
         this.gameRunning = false;
+        this.clearSavedState();
         this.elements.pauseOverlay.classList.remove('active');
         this.gotoMenu();
     }
@@ -832,6 +852,65 @@ class BlockPuzzle {
     loadHighScore() {
         this.highScore = parseInt(localStorage.getItem('blockPuzzleHighScore') || '0');
         this.elements.menuHighscore.querySelector('.hs-value').textContent = this.highScore;
+    }
+
+    saveGameState() {
+        try {
+            const state = {
+                grid: this.grid,
+                score: this.score,
+                level: this.level,
+                lines: this.lines,
+                combo: this.combo,
+                dropSpeed: this.dropSpeed,
+                currentBlock: this.currentBlock,
+                nextBlocks: this.nextBlocks,
+                heldBlock: this.heldBlock,
+                canHold: this.canHold,
+                gameOver: false
+            };
+            localStorage.setItem('blockPuzzle_gameState', JSON.stringify(state));
+        } catch (e) {
+            console.warn('Failed to save game state:', e);
+        }
+    }
+
+    loadGameState() {
+        try {
+            const saved = localStorage.getItem('blockPuzzle_gameState');
+            if (!saved) return false;
+
+            const state = JSON.parse(saved);
+            if (!state || state.gameOver) {
+                this.clearSavedState();
+                return false;
+            }
+
+            this.grid = state.grid;
+            this.score = state.score;
+            this.level = state.level;
+            this.lines = state.lines;
+            this.combo = state.combo;
+            this.dropSpeed = state.dropSpeed;
+            this.currentBlock = state.currentBlock;
+            this.nextBlocks = state.nextBlocks;
+            this.heldBlock = state.heldBlock;
+            this.canHold = state.canHold;
+
+            // Update HUD
+            this.elements.hudScore.textContent = this.score;
+            this.elements.hudLevel.textContent = `${window.i18n?.t('hud.level') || 'Lv.'} ${this.level}`;
+
+            return true;
+        } catch (e) {
+            console.warn('Failed to load game state:', e);
+            this.clearSavedState();
+            return false;
+        }
+    }
+
+    clearSavedState() {
+        localStorage.removeItem('blockPuzzle_gameState');
     }
 
     render() {
