@@ -629,6 +629,7 @@ class BlockPuzzle {
             }
         }
         if (window.sfx) window.sfx.play('lock');
+        if (typeof Haptic !== 'undefined') Haptic.light();
     }
 
     clearLines() {
@@ -681,6 +682,7 @@ class BlockPuzzle {
         }
 
         if (window.sfx) window.sfx.play('clear');
+        if (typeof Haptic !== 'undefined') Haptic.medium();
 
         return linesToClear.length;
     }
@@ -734,6 +736,7 @@ class BlockPuzzle {
             this.elements.goNewRecord.classList.add('hidden');
         }
 
+        if (typeof Haptic !== 'undefined') Haptic.heavy();
         if (typeof DailyStreak !== 'undefined') DailyStreak.report(this.score);
 
         this.elements.goScore.textContent = this.score;
