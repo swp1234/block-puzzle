@@ -57,6 +57,9 @@ class BlockPuzzle {
         this.level = 1;
         this.lines = 0;
         this.combo = 0;
+        this.floatingTexts = [];
+        this.shakeFrames = 0;
+        this.shakeAmount = 0;
         this.gameRunning = false;
         this.gamePaused = false;
         this.gameStarted = false;
@@ -651,6 +654,32 @@ class BlockPuzzle {
         this.lines += linesToClear.length;
         this.combo++;
 
+        // Visual combo feedback
+        const midRow = linesToClear[Math.floor(linesToClear.length / 2)];
+        const comboMultiplier = Math.pow(1.2, this.combo - 1);
+        const points = Math.floor(linesToClear.length * 100 * comboMultiplier);
+        if (this.combo >= 2) {
+            this.floatingTexts.push({
+                text: `${this.combo}x COMBO! +${points}`,
+                x: this.gridWidth * this.blockSize / 2,
+                y: midRow * this.blockSize,
+                life: 50,
+                color: this.combo >= 4 ? '#f39c12' : '#e74c3c'
+            });
+            this.shakeAmount = Math.min(this.combo * 2, 8);
+            this.shakeFrames = 10;
+        } else if (linesToClear.length >= 4) {
+            this.floatingTexts.push({
+                text: 'TETRIS!',
+                x: this.gridWidth * this.blockSize / 2,
+                y: midRow * this.blockSize,
+                life: 60,
+                color: '#00d4ff'
+            });
+            this.shakeAmount = 6;
+            this.shakeFrames = 12;
+        }
+
         if (window.sfx) window.sfx.play('clear');
 
         return linesToClear.length;
@@ -804,8 +833,19 @@ class BlockPuzzle {
         // Game Canvas (use logical size, not DPR-scaled)
         const logicalW = this.gridWidth * this.blockSize;
         const logicalH = this.gridHeight * this.blockSize;
+
+        this.ctx.save();
+
+        // Screen shake
+        if (this.shakeFrames > 0) {
+            const sx = (Math.random() - 0.5) * this.shakeAmount;
+            const sy = (Math.random() - 0.5) * this.shakeAmount;
+            this.ctx.translate(sx, sy);
+            this.shakeFrames--;
+        }
+
         this.ctx.fillStyle = '#000';
-        this.ctx.fillRect(0, 0, logicalW, logicalH);
+        this.ctx.fillRect(-5, -5, logicalW + 10, logicalH + 10);
 
         // Grid
         this.ctx.strokeStyle = 'rgba(155, 89, 182, 0.1)';
@@ -846,6 +886,26 @@ class BlockPuzzle {
                 }
             }
         }
+
+        // Floating texts
+        for (let i = this.floatingTexts.length - 1; i >= 0; i--) {
+            const ft = this.floatingTexts[i];
+            const alpha = ft.life / 50;
+            this.ctx.globalAlpha = Math.min(1, alpha);
+            this.ctx.fillStyle = ft.color;
+            this.ctx.font = `bold ${Math.min(20 + (50 - ft.life), 28)}px -apple-system, sans-serif`;
+            this.ctx.textAlign = 'center';
+            this.ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+            this.ctx.lineWidth = 3;
+            this.ctx.strokeText(ft.text, ft.x, ft.y);
+            this.ctx.fillText(ft.text, ft.x, ft.y);
+            ft.y -= 0.8;
+            ft.life--;
+            if (ft.life <= 0) this.floatingTexts.splice(i, 1);
+        }
+        this.ctx.globalAlpha = 1;
+
+        this.ctx.restore();
 
         // Next preview
         this.renderNextPreview();
