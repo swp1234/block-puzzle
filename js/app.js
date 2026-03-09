@@ -420,6 +420,7 @@ class BlockPuzzle {
     }
 
     startGame() {
+        if (typeof GameAds !== 'undefined') GameAds.removeRewardButton('#gameover-screen');
         if(typeof gtag!=='undefined') gtag('event','game_start');
         // GA4 engagement event to reduce bounce rate
         if (!this._engagementFired) {
@@ -765,10 +766,29 @@ class BlockPuzzle {
         // Display leaderboard
         this.displayLeaderboard(leaderboardResult);
 
-        if (typeof GameAds !== 'undefined') {
-            GameAds.showInterstitial({ onComplete: () => this.showScreen('gameover-screen') });
-        } else {
+        const showGameOverAndReward = () => {
             this.showScreen('gameover-screen');
+            if (typeof GameAds !== 'undefined') {
+                GameAds.injectRewardButton({
+                    container: '#gameover-screen',
+                    label: 'Watch Ad for 2x Score',
+                    onReward: () => {
+                        this.score *= 2;
+                        this.elements.goScore.textContent = this.score;
+                        if (this.score > this.highScore) {
+                            this.highScore = this.score;
+                            localStorage.setItem('blockPuzzleHighScore', this.score);
+                            this.elements.goBest.textContent = this.highScore;
+                        }
+                    }
+                });
+            }
+        };
+
+        if (typeof GameAds !== 'undefined') {
+            GameAds.showInterstitial({ onComplete: () => showGameOverAndReward() });
+        } else {
+            showGameOverAndReward();
         }
     }
 
