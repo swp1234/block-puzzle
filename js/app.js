@@ -464,7 +464,6 @@ class BlockPuzzle {
 
             // Start game loop
             this.gameLoop();
-            console.log('Game started successfully');
         } catch (e) {
             console.error('Error in startGame():', e);
         }
@@ -849,7 +848,6 @@ class BlockPuzzle {
             if (screen) {
                 screen.classList.add('active');
                 screen.classList.remove('hidden');
-                console.log(`Screen switched to: ${screenId}`);
             } else {
                 console.error(`Screen element not found: ${screenId}`);
             }
@@ -1115,18 +1113,14 @@ if (themeToggle) {
 
 // Initialize game when DOM is ready
 window.addEventListener('load', () => {
-    console.log('Window load event fired');
     try {
         // Initialize i18n
         if (window.i18n) {
-            console.log('i18n found, initializing...');
             window.i18n.initI18n().then(() => {
-                console.log('i18n initialized successfully');
                 // Create game instance
                 window.game = new BlockPuzzle();
                 if (typeof GameAds !== 'undefined') GameAds.init();
                 if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'block-puzzle', bestScoreKey: 'blockPuzzleHighScore', minTarget: 100 });
-                console.log('BlockPuzzle instance created');
 
                 // Hide loader
                 const loader = document.getElementById('app-loader');
