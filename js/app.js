@@ -809,6 +809,11 @@ class BlockPuzzle {
 
         if (typeof Haptic !== 'undefined') Haptic.heavy();
         if (typeof DailyStreak !== 'undefined') DailyStreak.report(this.score);
+        if (typeof GameAchievements !== 'undefined') GameAchievements.report({
+            bestScore: this.highScore,
+            totalGames: this.leaderboard.getScores().length,
+            bestCombo: this.combo
+        });
 
         this.elements.goScore.textContent = this.score;
         this.elements.goLevel.textContent = this.level;
@@ -1178,6 +1183,17 @@ window.addEventListener('load', () => {
                 window.game = new BlockPuzzle();
                 if (typeof GameAds !== 'undefined') GameAds.init();
                 if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'block-puzzle', bestScoreKey: 'blockPuzzleHighScore', minTarget: 100 });
+                if (typeof GameAchievements !== 'undefined') GameAchievements.init({
+                    gameId: 'block-puzzle',
+                    defs: [
+                        { id: 'score_500', stat: 'bestScore', target: 500, icon: '⭐', name: 'Rising Star' },
+                        { id: 'score_2000', stat: 'bestScore', target: 2000, icon: '🏆', name: 'Block Master' },
+                        { id: 'score_5000', stat: 'bestScore', target: 5000, icon: '👑', name: 'Block Legend' },
+                        { id: 'games_10', stat: 'totalGames', target: 10, icon: '🎮', name: 'Regular Player' },
+                        { id: 'games_50', stat: 'totalGames', target: 50, icon: '🔥', name: 'Dedicated' },
+                        { id: 'combo_5', stat: 'bestCombo', target: 5, icon: '💥', name: 'Combo King' }
+                    ]
+                });
 
                 // Hide loader
                 const loader = document.getElementById('app-loader');
@@ -1193,6 +1209,17 @@ window.addEventListener('load', () => {
                 window.game = new BlockPuzzle();
                 if (typeof GameAds !== 'undefined') GameAds.init();
                 if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'block-puzzle', bestScoreKey: 'blockPuzzleHighScore', minTarget: 100 });
+                if (typeof GameAchievements !== 'undefined') GameAchievements.init({
+                    gameId: 'block-puzzle',
+                    defs: [
+                        { id: 'score_500', stat: 'bestScore', target: 500, icon: '⭐', name: 'Rising Star' },
+                        { id: 'score_2000', stat: 'bestScore', target: 2000, icon: '🏆', name: 'Block Master' },
+                        { id: 'score_5000', stat: 'bestScore', target: 5000, icon: '👑', name: 'Block Legend' },
+                        { id: 'games_10', stat: 'totalGames', target: 10, icon: '🎮', name: 'Regular Player' },
+                        { id: 'games_50', stat: 'totalGames', target: 50, icon: '🔥', name: 'Dedicated' },
+                        { id: 'combo_5', stat: 'bestCombo', target: 5, icon: '💥', name: 'Combo King' }
+                    ]
+                });
                 document.getElementById('app-loader').style.display = 'none';
             });
         } else {
@@ -1201,6 +1228,17 @@ window.addEventListener('load', () => {
             window.game = new BlockPuzzle();
             if (typeof GameAds !== 'undefined') GameAds.init();
             if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'block-puzzle', bestScoreKey: 'blockPuzzleHighScore', minTarget: 100 });
+            if (typeof GameAchievements !== 'undefined') GameAchievements.init({
+                gameId: 'block-puzzle',
+                defs: [
+                    { id: 'score_500', stat: 'bestScore', target: 500, icon: '⭐', name: 'Rising Star' },
+                    { id: 'score_2000', stat: 'bestScore', target: 2000, icon: '🏆', name: 'Block Master' },
+                    { id: 'score_5000', stat: 'bestScore', target: 5000, icon: '👑', name: 'Block Legend' },
+                    { id: 'games_10', stat: 'totalGames', target: 10, icon: '🎮', name: 'Regular Player' },
+                    { id: 'games_50', stat: 'totalGames', target: 50, icon: '🔥', name: 'Dedicated' },
+                    { id: 'combo_5', stat: 'bestCombo', target: 5, icon: '💥', name: 'Combo King' }
+                ]
+            });
             const loader = document.getElementById('app-loader');
             if (loader) {
                 loader.style.display = 'none';
