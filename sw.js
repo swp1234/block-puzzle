@@ -2,7 +2,7 @@
  * Service Worker - Offline Support & Caching
  */
 
-const CACHE_NAME = 'block-puzzle-v3';
+const CACHE_NAME = 'block-puzzle-v4';
 const ASSETS_TO_CACHE = [
     '/',
     'index.html',
