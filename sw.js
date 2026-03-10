@@ -2,11 +2,12 @@
  * Service Worker - Offline Support & Caching
  */
 
-const CACHE_NAME = 'block-puzzle-v2';
+const CACHE_NAME = 'block-puzzle-v3';
 const ASSETS_TO_CACHE = [
     '/',
     'index.html',
     'css/style.css',
+    'assets/bg-opt.jpg',
     'js/app.js',
     'js/i18n.js',
     'js/sound-engine.js',
