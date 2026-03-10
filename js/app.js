@@ -443,6 +443,22 @@ class BlockPuzzle {
         }, 1200);
     }
 
+    spawnConfetti(count = 30) {
+        const colors = ['#00d4ff', '#ffff00', '#ff00ff', '#00ff00', '#ff0080', '#ff8000'];
+        for (let i = 0; i < count; i++) {
+            const p = document.createElement('div');
+            p.style.cssText = `position:fixed;width:8px;height:8px;border-radius:${Math.random()>.5?'50%':'0'};pointer-events:none;z-index:9999;background:${colors[i%colors.length]};left:${50+(Math.random()-.5)*60}%;top:40%;opacity:1;transition:all 1s ease-out;`;
+            document.body.appendChild(p);
+            const tx = (Math.random() - 0.5) * 200;
+            const ty = -80 - Math.random() * 150;
+            requestAnimationFrame(() => {
+                p.style.transform = `translate(${tx}px, ${ty}px) rotate(${Math.random()*360}deg)`;
+                p.style.opacity = '0';
+            });
+            setTimeout(() => p.remove(), 1200);
+        }
+    }
+
     startGame() {
         this._newBestShown = false;
         if (typeof GameAds !== 'undefined') GameAds.removeRewardButton('#gameover-screen');
@@ -722,6 +738,13 @@ class BlockPuzzle {
             });
             this.shakeAmount = 6;
             this.shakeFrames = 12;
+        }
+
+        // Confetti on multi-line clears
+        if (linesToClear.length >= 4) {
+            this.spawnConfetti(40);
+        } else if (linesToClear.length >= 2 || this.combo >= 3) {
+            this.spawnConfetti(20);
         }
 
         if (window.sfx) window.sfx.play('clear');
