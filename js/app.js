@@ -60,6 +60,8 @@ class BlockPuzzle {
         this.floatingTexts = [];
         this.shakeFrames = 0;
         this.shakeAmount = 0;
+        this.clearFlashLines = [];
+        this.clearFlashTimer = 0;
         this.gameRunning = false;
         this.gamePaused = false;
         this.gameStarted = false;
@@ -674,6 +676,20 @@ class BlockPuzzle {
         return false;
     }
 
+    getGhostY() {
+        if (!this.currentBlock) return 0;
+        let ghostY = this.currentBlock.y;
+        const testBlock = {
+            shape: this.currentBlock.shape,
+            x: this.currentBlock.x,
+            y: ghostY
+        };
+        while (!this.isColliding(testBlock)) {
+            testBlock.y++;
+        }
+        return testBlock.y - 1;
+    }
+
     lockBlock() {
         for (let row = 0; row < this.currentBlock.shape.length; row++) {
             for (let col = 0; col < this.currentBlock.shape[row].length; col++) {
@@ -705,6 +721,10 @@ class BlockPuzzle {
             return 0;
         }
 
+        // Flash animation before clearing
+        this.clearFlashLines = [...linesToClear];
+        this.clearFlashTimer = 1;
+
         // Remove cleared lines
         for (let i = linesToClear.length - 1; i >= 0; i--) {
             this.grid.splice(linesToClear[i], 1);
@@ -713,6 +733,25 @@ class BlockPuzzle {
 
         this.lines += linesToClear.length;
         this.combo++;
+
+        // Perfect clear bonus (board completely empty)
+        const isPerfectClear = this.grid.every(row => row.every(cell => cell === 0));
+        if (isPerfectClear) {
+            const pcBonus = 1000 * this.level;
+            this.score += pcBonus;
+            this.floatingTexts.push({
+                text: `PERFECT CLEAR! +${pcBonus}`,
+                x: this.gridWidth * this.blockSize / 2,
+                y: this.gridHeight * this.blockSize / 2,
+                life: 70,
+                color: '#fbbf24'
+            });
+            this.spawnConfetti(50);
+            this.shakeAmount = 10;
+            this.shakeFrames = 15;
+            if (typeof Haptic !== 'undefined') Haptic.heavy();
+            if (window.sfx) window.sfx.play('levelup');
+        }
 
         // Visual combo feedback
         const midRow = linesToClear[Math.floor(linesToClear.length / 2)];
@@ -1037,6 +1076,55 @@ class BlockPuzzle {
                 if (this.grid[row][col]) {
                     this.drawBlock(this.ctx, col, row, this.grid[row][col], this.blockSize);
                 }
+            }
+        }
+
+        // Ghost piece (landing preview)
+        if (this.currentBlock) {
+            const ghostY = this.getGhostY();
+            if (ghostY !== this.currentBlock.y) {
+                this.ctx.globalAlpha = 0.2;
+                for (let row = 0; row < this.currentBlock.shape.length; row++) {
+                    for (let col = 0; col < this.currentBlock.shape[row].length; col++) {
+                        if (this.currentBlock.shape[row][col]) {
+                            const x = this.currentBlock.x + col;
+                            const y = ghostY + row;
+                            if (y >= 0) {
+                                this.drawBlock(this.ctx, x, y, this.currentBlock.type, this.blockSize);
+                            }
+                        }
+                    }
+                }
+                this.ctx.globalAlpha = 1;
+                // Ghost outline
+                this.ctx.strokeStyle = BLOCK_COLORS[this.currentBlock.type];
+                this.ctx.lineWidth = 1.5;
+                this.ctx.setLineDash([3, 3]);
+                for (let row = 0; row < this.currentBlock.shape.length; row++) {
+                    for (let col = 0; col < this.currentBlock.shape[row].length; col++) {
+                        if (this.currentBlock.shape[row][col]) {
+                            const x = (this.currentBlock.x + col) * this.blockSize;
+                            const y = (ghostY + row) * this.blockSize;
+                            if (ghostY + row >= 0) {
+                                this.ctx.strokeRect(x + 1, y + 1, this.blockSize - 2, this.blockSize - 2);
+                            }
+                        }
+                    }
+                }
+                this.ctx.setLineDash([]);
+            }
+        }
+
+        // Line clear flash animation
+        if (this.clearFlashLines && this.clearFlashLines.length > 0 && this.clearFlashTimer > 0) {
+            const flashAlpha = Math.sin(this.clearFlashTimer * Math.PI * 3) * 0.6 + 0.3;
+            this.ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0, flashAlpha)})`;
+            for (const row of this.clearFlashLines) {
+                this.ctx.fillRect(0, row * this.blockSize, this.gridWidth * this.blockSize, this.blockSize);
+            }
+            this.clearFlashTimer -= 0.02;
+            if (this.clearFlashTimer <= 0) {
+                this.clearFlashLines = [];
             }
         }
 
