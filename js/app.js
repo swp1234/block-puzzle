@@ -161,6 +161,13 @@ class BlockPuzzle {
         this.holdCanvas = document.getElementById('hold-canvas');
         this.holdCtx = this.holdCanvas.getContext('2d');
 
+        // Preload background image
+        this.bgImage = null;
+        this.bgImageReady = false;
+        const bgImg = new Image();
+        bgImg.onload = () => { this.bgImage = bgImg; this.bgImageReady = true; };
+        bgImg.src = 'assets/bg-opt.jpg';
+
         // Set canvas size
         this.resizeCanvas();
         window.addEventListener('resize', () => this.resizeCanvas());
@@ -950,8 +957,13 @@ class BlockPuzzle {
             this.shakeFrames--;
         }
 
-        this.ctx.fillStyle = '#000';
-        this.ctx.fillRect(-5, -5, logicalW + 10, logicalH + 10);
+        // Background: image or fallback solid color
+        if (this.bgImageReady) {
+            this.ctx.drawImage(this.bgImage, -5, -5, logicalW + 10, logicalH + 10);
+        } else {
+            this.ctx.fillStyle = '#000';
+            this.ctx.fillRect(-5, -5, logicalW + 10, logicalH + 10);
+        }
 
         // Grid
         this.ctx.strokeStyle = 'rgba(155, 89, 182, 0.1)';
