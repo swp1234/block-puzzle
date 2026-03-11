@@ -725,6 +725,29 @@ class BlockPuzzle {
         this.clearFlashLines = [...linesToClear];
         this.clearFlashTimer = 1;
 
+        // Spawn block debris particles from cleared lines
+        for (const row of linesToClear) {
+            for (let col = 0; col < this.gridWidth; col++) {
+                const cellType = this.grid[row][col];
+                if (cellType) {
+                    const px = col * this.blockSize + this.blockSize / 2;
+                    const py = row * this.blockSize + this.blockSize / 2;
+                    for (let p = 0; p < 3; p++) {
+                        this.floatingTexts.push({
+                            text: '',
+                            x: px, y: py,
+                            vx: (Math.random() - 0.5) * 6,
+                            vy: -Math.random() * 4 - 1,
+                            life: 25 + Math.random() * 15,
+                            color: BLOCK_COLORS[cellType] || '#fff',
+                            isParticle: true,
+                            size: 3 + Math.random() * 3
+                        });
+                    }
+                }
+            }
+        }
+
         // Remove cleared lines
         for (let i = linesToClear.length - 1; i >= 0; i--) {
             this.grid.splice(linesToClear[i], 1);
@@ -1096,7 +1119,19 @@ class BlockPuzzle {
                     }
                 }
                 this.ctx.globalAlpha = 1;
-                // Ghost outline
+                // Ghost piece (translucent filled blocks)
+                this.ctx.globalAlpha = 0.2;
+                for (let row = 0; row < this.currentBlock.shape.length; row++) {
+                    for (let col = 0; col < this.currentBlock.shape[row].length; col++) {
+                        if (this.currentBlock.shape[row][col]) {
+                            if (ghostY + row >= 0) {
+                                this.drawBlock(this.ctx, this.currentBlock.x + col, ghostY + row, this.currentBlock.type, this.blockSize);
+                            }
+                        }
+                    }
+                }
+                this.ctx.globalAlpha = 1;
+                // Ghost border dashes
                 this.ctx.strokeStyle = BLOCK_COLORS[this.currentBlock.type];
                 this.ctx.lineWidth = 1.5;
                 this.ctx.setLineDash([3, 3]);
@@ -1148,14 +1183,25 @@ class BlockPuzzle {
             const ft = this.floatingTexts[i];
             const alpha = ft.life / 50;
             this.ctx.globalAlpha = Math.min(1, alpha);
-            this.ctx.fillStyle = ft.color;
-            this.ctx.font = `bold ${Math.min(20 + (50 - ft.life), 28)}px -apple-system, sans-serif`;
-            this.ctx.textAlign = 'center';
-            this.ctx.strokeStyle = 'rgba(0,0,0,0.5)';
-            this.ctx.lineWidth = 3;
-            this.ctx.strokeText(ft.text, ft.x, ft.y);
-            this.ctx.fillText(ft.text, ft.x, ft.y);
-            ft.y -= 0.8;
+
+            if (ft.isParticle) {
+                // Block debris particle
+                this.ctx.fillStyle = ft.color;
+                this.ctx.fillRect(ft.x - ft.size / 2, ft.y - ft.size / 2, ft.size, ft.size);
+                ft.x += (ft.vx || 0);
+                ft.y += (ft.vy || 0);
+                ft.vy = (ft.vy || 0) + 0.15;
+            } else {
+                this.ctx.fillStyle = ft.color;
+                this.ctx.font = `bold ${Math.min(20 + (50 - ft.life), 28)}px -apple-system, sans-serif`;
+                this.ctx.textAlign = 'center';
+                this.ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+                this.ctx.lineWidth = 3;
+                this.ctx.strokeText(ft.text, ft.x, ft.y);
+                this.ctx.fillText(ft.text, ft.x, ft.y);
+                ft.y -= 0.8;
+            }
+
             ft.life--;
             if (ft.life <= 0) this.floatingTexts.splice(i, 1);
         }
@@ -1227,22 +1273,49 @@ class BlockPuzzle {
 
     drawBlockDirect(ctx, x, y, type, size) {
         const color = BLOCK_COLORS[type];
+        const m = 1; // margin
+        const s = size - m * 2;
 
-        // Block
-        ctx.fillStyle = color;
-        ctx.fillRect(x + 1, y + 1, size - 2, size - 2);
-
-        // Border
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(x + 1, y + 1, size - 2, size - 2);
-
-        // Glow effect
+        // Outer glow
         ctx.shadowColor = color;
-        ctx.shadowBlur = 8;
+        ctx.shadowBlur = 6;
+
+        // Base fill
         ctx.fillStyle = color;
-        ctx.fillRect(x + 1, y + 1, size - 2, size - 2);
+        ctx.fillRect(x + m, y + m, s, s);
         ctx.shadowBlur = 0;
+
+        // 3D top highlight
+        const grad = ctx.createLinearGradient(x + m, y + m, x + m, y + m + s);
+        grad.addColorStop(0, 'rgba(255,255,255,0.35)');
+        grad.addColorStop(0.4, 'rgba(255,255,255,0.05)');
+        grad.addColorStop(1, 'rgba(0,0,0,0.25)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(x + m, y + m, s, s);
+
+        // Inner shine (top-left corner gloss)
+        const r = size * 0.3;
+        const shine = ctx.createRadialGradient(x + m + r * 0.6, y + m + r * 0.6, 0, x + m + r, y + m + r, r);
+        shine.addColorStop(0, 'rgba(255,255,255,0.4)');
+        shine.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = shine;
+        ctx.fillRect(x + m, y + m, s, s);
+
+        // Border edges for depth
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x + m, y + m + s);
+        ctx.lineTo(x + m, y + m);
+        ctx.lineTo(x + m + s, y + m);
+        ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+        ctx.beginPath();
+        ctx.moveTo(x + m + s, y + m);
+        ctx.lineTo(x + m + s, y + m + s);
+        ctx.lineTo(x + m, y + m + s);
+        ctx.stroke();
     }
 }
 
