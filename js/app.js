@@ -691,6 +691,8 @@ class BlockPuzzle {
     }
 
     lockBlock() {
+        let maxY = 0;
+        const blockColor = BLOCK_COLORS[this.currentBlock.type] || '#fff';
         for (let row = 0; row < this.currentBlock.shape.length; row++) {
             for (let col = 0; col < this.currentBlock.shape[row].length; col++) {
                 if (!this.currentBlock.shape[row][col]) continue;
@@ -700,9 +702,39 @@ class BlockPuzzle {
 
                 if (y >= 0 && y < this.gridHeight && x >= 0 && x < this.gridWidth) {
                     this.grid[y][x] = this.currentBlock.type;
+                    if (y > maxY) maxY = y;
                 }
             }
         }
+
+        // Landing impact particles along the bottom of the piece
+        const ghostDist = this.getGhostY() - this.currentBlock.y;
+        if (ghostDist <= 0) {
+            // Hard drop or natural landing — spawn impact particles
+            for (let col = 0; col < this.currentBlock.shape[0].length; col++) {
+                // Find bottom-most filled cell in this column
+                let bottomRow = -1;
+                for (let row = this.currentBlock.shape.length - 1; row >= 0; row--) {
+                    if (this.currentBlock.shape[row][col]) { bottomRow = row; break; }
+                }
+                if (bottomRow < 0) continue;
+                const px = (this.currentBlock.x + col) * this.blockSize + this.blockSize / 2;
+                const py = (this.currentBlock.y + bottomRow + 1) * this.blockSize;
+                for (let p = 0; p < 2; p++) {
+                    this.floatingTexts.push({
+                        text: '',
+                        x: px, y: py,
+                        vx: (Math.random() - 0.5) * 3,
+                        vy: -Math.random() * 2 - 0.5,
+                        life: 12 + Math.random() * 8,
+                        color: blockColor,
+                        isParticle: true,
+                        size: 2 + Math.random() * 2
+                    });
+                }
+            }
+        }
+
         if (window.sfx) window.sfx.play('lock');
         if (typeof Haptic !== 'undefined') Haptic.light();
     }
@@ -798,8 +830,10 @@ class BlockPuzzle {
                 life: 60,
                 color: '#00d4ff'
             });
-            this.shakeAmount = 6;
-            this.shakeFrames = 12;
+            this.shakeAmount = 8;
+            this.shakeFrames = 15;
+            // Full-width flash effect for Tetris
+            this.tetrisFlash = 1.0;
         }
 
         // Confetti on multi-line clears
@@ -1206,6 +1240,13 @@ class BlockPuzzle {
             if (ft.life <= 0) this.floatingTexts.splice(i, 1);
         }
         this.ctx.globalAlpha = 1;
+
+        // Tetris flash overlay
+        if (this.tetrisFlash > 0) {
+            this.ctx.fillStyle = `rgba(0,212,255,${this.tetrisFlash * 0.3})`;
+            this.ctx.fillRect(0, 0, this.gridWidth * this.blockSize, this.gridHeight * this.blockSize);
+            this.tetrisFlash -= 0.04;
+        }
 
         this.ctx.restore();
 
