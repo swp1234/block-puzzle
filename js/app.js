@@ -561,36 +561,40 @@ class BlockPuzzle {
     gameLoop() {
         if (!this.gameRunning) return;
 
-        const now = Date.now();
-        const deltaTime = now - this.lastDropTime;
+        try {
+            const now = Date.now();
+            const deltaTime = now - this.lastDropTime;
 
-        if (this.gameStarted && !this.gamePaused) {
-            const effectiveSpeed = this.isSoftDropping ? this.dropSpeed * 0.2 : this.dropSpeed;
+            if (this.gameStarted && !this.gamePaused) {
+                const effectiveSpeed = this.isSoftDropping ? this.dropSpeed * 0.2 : this.dropSpeed;
 
-            if (deltaTime > effectiveSpeed) {
-                if (!this.moveDown()) {
-                    // Block locked
-                    this.lockBlock();
-                    const clearedLines = this.clearLines();
+                if (deltaTime > effectiveSpeed) {
+                    if (!this.moveDown()) {
+                        // Block locked
+                        this.lockBlock();
+                        const clearedLines = this.clearLines();
 
-                    if (clearedLines > 0) {
-                        this.updateScore(clearedLines);
+                        if (clearedLines > 0) {
+                            this.updateScore(clearedLines);
+                        }
+
+                        this.spawnBlock();
+
+                        if (this.isColliding(this.currentBlock)) {
+                            this.gameOver();
+                            return;
+                        }
+
+                        this.saveGameState();
                     }
-
-                    this.spawnBlock();
-
-                    if (this.isColliding(this.currentBlock)) {
-                        this.gameOver();
-                        return;
-                    }
-
-                    this.saveGameState();
+                    this.lastDropTime = now;
                 }
-                this.lastDropTime = now;
             }
-        }
 
-        this.render();
+            this.render();
+        } catch (e) {
+            console.error('Game loop error:', e);
+        }
         requestAnimationFrame(() => this.gameLoop());
     }
 
