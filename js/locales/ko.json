@@ -61,7 +61,19 @@
     "copied": "✅ 복사됨!"
   },
   "hud": {
-    "level": "Lv."
+    "level": "Lv.",
+    "personalBest": "PB",
+    "combo": "COMBO"
+  },
+  "milestone": {
+    "500": "500점 달성!",
+    "1000": "1,000점 달성!",
+    "2000": "2,000점 달성!",
+    "5000": "5,000점 달성!"
+  },
+  "session": {
+    "gamesPlayed": "게임 수",
+    "totalLines": "라인"
   },
   "recommendations": {
     "title": "이것도 해보세요"

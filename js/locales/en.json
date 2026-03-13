@@ -61,7 +61,19 @@
     "copied": "✅ Copied!"
   },
   "hud": {
-    "level": "Lv."
+    "level": "Lv.",
+    "personalBest": "PB",
+    "combo": "COMBO"
+  },
+  "milestone": {
+    "500": "500 Points!",
+    "1000": "1,000 Points!",
+    "2000": "2,000 Points!",
+    "5000": "5,000 Points!"
+  },
+  "session": {
+    "gamesPlayed": "Games",
+    "totalLines": "Lines"
   },
   "recommendations": {
     "title": "Try These Games Too"

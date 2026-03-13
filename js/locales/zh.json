@@ -61,7 +61,19 @@
     "copied": "✅ 已复制!"
   },
   "hud": {
-    "level": "关卡"
+    "level": "关卡",
+    "personalBest": "PB",
+    "combo": "连击"
+  },
+  "milestone": {
+    "500": "500分!",
+    "1000": "1,000分!",
+    "2000": "2,000分!",
+    "5000": "5,000分!"
+  },
+  "session": {
+    "gamesPlayed": "游戏次数",
+    "totalLines": "消行数"
   },
   "recommendations": {
     "title": "也试试这些游戏"

@@ -61,7 +61,19 @@
     "copied": "✅ Copiado!"
   },
   "hud": {
-    "level": "Nv."
+    "level": "Nv.",
+    "personalBest": "PB",
+    "combo": "COMBO"
+  },
+  "milestone": {
+    "500": "500 Pontos!",
+    "1000": "1.000 Pontos!",
+    "2000": "2.000 Pontos!",
+    "5000": "5.000 Pontos!"
+  },
+  "session": {
+    "gamesPlayed": "Partidas",
+    "totalLines": "Linhas"
   },
   "recommendations": {
     "title": "Tente Estes Jogos Também"

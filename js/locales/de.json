@@ -61,7 +61,19 @@
     "copied": "✅ Kopiert!"
   },
   "hud": {
-    "level": "Lv."
+    "level": "Lv.",
+    "personalBest": "PB",
+    "combo": "COMBO"
+  },
+  "milestone": {
+    "500": "500 Punkte!",
+    "1000": "1.000 Punkte!",
+    "2000": "2.000 Punkte!",
+    "5000": "5.000 Punkte!"
+  },
+  "session": {
+    "gamesPlayed": "Spiele",
+    "totalLines": "Zeilen"
   },
   "recommendations": {
     "title": "Versuchen Sie Auch Diese Spiele"

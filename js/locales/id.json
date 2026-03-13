@@ -61,7 +61,19 @@
     "copied": "✅ Disalin!"
   },
   "hud": {
-    "level": "Lv."
+    "level": "Lv.",
+    "personalBest": "PB",
+    "combo": "COMBO"
+  },
+  "milestone": {
+    "500": "500 Poin!",
+    "1000": "1.000 Poin!",
+    "2000": "2.000 Poin!",
+    "5000": "5.000 Poin!"
+  },
+  "session": {
+    "gamesPlayed": "Permainan",
+    "totalLines": "Baris"
   },
   "recommendations": {
     "title": "Coba Permainan Ini Juga"

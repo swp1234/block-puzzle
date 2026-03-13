@@ -61,7 +61,19 @@
     "copied": "✅ コピー済み!"
   },
   "hud": {
-    "level": "Lv."
+    "level": "Lv.",
+    "personalBest": "PB",
+    "combo": "COMBO"
+  },
+  "milestone": {
+    "500": "500ポイント!",
+    "1000": "1,000ポイント!",
+    "2000": "2,000ポイント!",
+    "5000": "5,000ポイント!"
+  },
+  "session": {
+    "gamesPlayed": "ゲーム数",
+    "totalLines": "ライン"
   },
   "recommendations": {
     "title": "他のゲームもプレイ"

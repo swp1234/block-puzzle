@@ -61,7 +61,19 @@
     "copied": "✅ Kopyalandı!"
   },
   "hud": {
-    "level": "Sv."
+    "level": "Sv.",
+    "personalBest": "PB",
+    "combo": "COMBO"
+  },
+  "milestone": {
+    "500": "500 Puan!",
+    "1000": "1.000 Puan!",
+    "2000": "2.000 Puan!",
+    "5000": "5.000 Puan!"
+  },
+  "session": {
+    "gamesPlayed": "Oyunlar",
+    "totalLines": "Satir"
   },
   "recommendations": {
     "title": "Bu Oyunları Da Deneyin"

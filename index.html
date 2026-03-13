@@ -194,6 +194,8 @@
                 <div class="hud-left">
                     <div class="hud-score" id="hud-score">0</div>
                     <div class="hud-level" id="hud-level">Lv. 1</div>
+                    <div class="hud-pb" id="hud-pb"><span class="pb-label" data-i18n="hud.personalBest">PB</span> <span id="hud-pb-value">0</span></div>
+                    <div class="hud-combo hidden" id="hud-combo"><span id="hud-combo-value">0</span>x <span data-i18n="hud.combo">COMBO</span></div>
                 </div>
                 <button class="hud-pause" id="btn-pause" aria-label="pause" data-i18n-attr="pause.title">⏸</button>
             </div>
@@ -263,6 +265,11 @@
 
                 <div class="go-new-record hidden" id="go-new-record" data-i18n="gameover.newRecord">🎉 새 기록!</div>
 
+                <div class="go-session-stats" id="go-session-stats">
+                    <div class="session-stat"><span class="session-label" data-i18n="session.gamesPlayed">Games</span><span class="session-value" id="session-games">0</span></div>
+                    <div class="session-stat"><span class="session-label" data-i18n="session.totalLines">Lines</span><span class="session-value" id="session-lines">0</span></div>
+                </div>
+
                 <div class="go-buttons">
                     <button class="btn-primary btn-retry" id="btn-retry">
                         <span data-i18n="gameover.retry">다시 하기</span>
@@ -307,6 +314,11 @@
                 <h2 data-i18n="screens.stats">통계</h2>
             </div>
             <div class="stats-content" id="stats-content"></div>
+        </div>
+
+        <!-- === MILESTONE CELEBRATION === -->
+        <div class="milestone-overlay hidden" id="milestone-overlay">
+            <div class="milestone-text" id="milestone-text"></div>
         </div>
 
         <!-- === INTERSTITIAL AD OVERLAY === -->

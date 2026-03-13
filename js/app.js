@@ -68,6 +68,17 @@ class BlockPuzzle {
         this.gamePaused = false;
         this.gameStarted = false;
 
+        // Session stats
+        this.sessionGames = 0;
+        this.sessionLines = 0;
+
+        // Milestone tracking
+        this.milestoneThresholds = [500, 1000, 2000, 5000];
+        this.milestonesHit = new Set();
+
+        // PB tracking during gameplay
+        this._liveNewBest = false;
+
         // Game state
         this.grid = this.createEmptyGrid();
         this.currentBlock = null;
@@ -140,7 +151,15 @@ class BlockPuzzle {
             goBest: document.getElementById('go-best'),
             goNewRecord: document.getElementById('go-new-record'),
             statsContent: document.getElementById('stats-content'),
-            menuHighscore: document.getElementById('menu-highscore')
+            menuHighscore: document.getElementById('menu-highscore'),
+            hudPb: document.getElementById('hud-pb'),
+            hudPbValue: document.getElementById('hud-pb-value'),
+            hudCombo: document.getElementById('hud-combo'),
+            hudComboValue: document.getElementById('hud-combo-value'),
+            milestoneOverlay: document.getElementById('milestone-overlay'),
+            milestoneText: document.getElementById('milestone-text'),
+            sessionGames: document.getElementById('session-games'),
+            sessionLines: document.getElementById('session-lines')
         };
 
         // Validate critical DOM elements
@@ -353,6 +372,16 @@ class BlockPuzzle {
                 this.elements.tapHint.classList.add('hidden');
             }
         });
+
+        // Quick restart: tap gameover background to restart
+        if (this.elements.gameoverScreen) {
+            this.elements.gameoverScreen.addEventListener('click', (e) => {
+                // Only trigger on background tap (not buttons/links)
+                if (e.target === this.elements.gameoverScreen) {
+                    this.startGame();
+                }
+            });
+        }
     }
 
     handleKeyDown(e) {
@@ -478,7 +507,6 @@ class BlockPuzzle {
             this.clearSavedState();
             this.grid = this.createEmptyGrid();
             this.score = 0;
-            // Improved: Start with slower speed (900ms) for easy early game
             this.dropSpeed = 900;
             this.level = 1;
             this.lines = 0;
@@ -493,6 +521,20 @@ class BlockPuzzle {
             this.gameStarted = false;
             this.gamePaused = false;
             this.isSoftDropping = false;
+
+            // Reset milestone tracking for this game
+            this.milestonesHit = new Set();
+            this._liveNewBest = false;
+            this.sessionGames++;
+
+            // Update PB display in HUD
+            if (this.elements.hudPbValue) {
+                this.elements.hudPbValue.textContent = this.highScore;
+            }
+            // Hide combo counter
+            if (this.elements.hudCombo) {
+                this.elements.hudCombo.classList.add('hidden');
+            }
 
             this.nextBlocks = [];
             this.spawnNextBlocks();
@@ -754,6 +796,7 @@ class BlockPuzzle {
 
         if (linesToClear.length === 0) {
             this.combo = 0;
+            if (this.elements.hudCombo) this.elements.hudCombo.classList.add('hidden');
             return 0;
         }
 
@@ -883,15 +926,43 @@ class BlockPuzzle {
         const points = Math.floor(basePoints * comboMultiplier);
 
         this.score += points;
+        this.sessionLines += clearedLines;
         this.elements.hudScore.textContent = this.score;
 
-        // Improved difficulty curve: slower early game, faster later
+        // Combo HUD
+        if (this.combo >= 2 && this.elements.hudCombo) {
+            this.elements.hudCombo.classList.remove('hidden');
+            if (this.elements.hudComboValue) {
+                this.elements.hudComboValue.textContent = this.combo;
+            }
+            // Re-trigger animation
+            this.elements.hudCombo.style.animation = 'none';
+            void this.elements.hudCombo.offsetWidth;
+            this.elements.hudCombo.style.animation = '';
+        } else if (this.elements.hudCombo) {
+            this.elements.hudCombo.classList.add('hidden');
+        }
+
+        // Live PB check
+        if (this.score > this.highScore && !this._liveNewBest) {
+            this._liveNewBest = true;
+            if (this.elements.hudPb) {
+                this.elements.hudPb.classList.add('new-record-flash');
+                setTimeout(() => this.elements.hudPb.classList.remove('new-record-flash'), 600);
+            }
+            this.showNewBest();
+        }
+        if (this._liveNewBest && this.elements.hudPbValue) {
+            this.elements.hudPbValue.textContent = this.score;
+        }
+
+        // Score milestone celebrations
+        this.checkMilestones();
+
+        // Difficulty curve
         const newLevel = Math.floor(this.lines / 10) + 1;
         if (newLevel > this.level) {
             this.level = newLevel;
-            // Early game: slow speed increase (lines 1-20 = levels 1-2, stay at 900ms)
-            // Mid game: moderate speed increase (lines 20-60 = levels 2-6, decrease 25ms/level)
-            // Late game: faster speed increase (lines 60+ = levels 6+, decrease 35ms/level)
             let newSpeed;
             if (this.level <= 2) {
                 newSpeed = 900;
@@ -904,6 +975,42 @@ class BlockPuzzle {
             if (window.sfx) window.sfx.play('levelup');
         }
         this.elements.hudLevel.textContent = `${window.i18n?.t('hud.level') || 'Lv.'} ${this.level}`;
+    }
+
+    checkMilestones() {
+        for (const threshold of this.milestoneThresholds) {
+            if (this.score >= threshold && !this.milestonesHit.has(threshold)) {
+                this.milestonesHit.add(threshold);
+                this.showMilestone(threshold);
+            }
+        }
+    }
+
+    showMilestone(score) {
+        const milestoneLabels = {
+            500: window.i18n?.t('milestone.500') || '500 Points!',
+            1000: window.i18n?.t('milestone.1000') || '1,000 Points!',
+            2000: window.i18n?.t('milestone.2000') || '2,000 Points!',
+            5000: window.i18n?.t('milestone.5000') || '5,000 Points!'
+        };
+
+        if (this.elements.milestoneOverlay && this.elements.milestoneText) {
+            this.elements.milestoneText.textContent = milestoneLabels[score] || `${score}!`;
+            this.elements.milestoneOverlay.classList.remove('hidden');
+
+            // Re-trigger animation
+            this.elements.milestoneText.style.animation = 'none';
+            void this.elements.milestoneText.offsetWidth;
+            this.elements.milestoneText.style.animation = '';
+
+            this.spawnConfetti(score >= 5000 ? 60 : score >= 2000 ? 40 : 25);
+            if (window.sfx) window.sfx.play('levelup');
+            if (typeof Haptic !== 'undefined') Haptic.heavy();
+
+            setTimeout(() => {
+                this.elements.milestoneOverlay.classList.add('hidden');
+            }, 1600);
+        }
     }
 
     gameOver() {
@@ -942,6 +1049,10 @@ class BlockPuzzle {
         this.elements.goScore.textContent = this.score;
         this.elements.goLevel.textContent = this.level;
         this.elements.goBest.textContent = this.highScore;
+
+        // Session stats
+        if (this.elements.sessionGames) this.elements.sessionGames.textContent = this.sessionGames;
+        if (this.elements.sessionLines) this.elements.sessionLines.textContent = this.sessionLines;
 
         // Display leaderboard
         this.displayLeaderboard(leaderboardResult);
