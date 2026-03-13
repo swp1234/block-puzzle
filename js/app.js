@@ -57,6 +57,8 @@ class BlockPuzzle {
         this.level = 1;
         this.lines = 0;
         this.combo = 0;
+        this.lastClearWasTetris = false; // back-to-back tracking
+        this.b2bCount = 0;
         this.floatingTexts = [];
         this.shakeFrames = 0;
         this.shakeAmount = 0;
@@ -481,6 +483,8 @@ class BlockPuzzle {
             this.level = 1;
             this.lines = 0;
             this.combo = 0;
+            this.lastClearWasTetris = false;
+            this.b2bCount = 0;
             this.dropSpeed = 1000;
             this.dropCounter = 0;
             this.lastDropTime = Date.now();
@@ -808,11 +812,35 @@ class BlockPuzzle {
             if (window.sfx) window.sfx.play('levelup');
         }
 
+        // Back-to-back Tetris tracking
+        const isTetris = linesToClear.length >= 4;
+        if (isTetris && this.lastClearWasTetris) {
+            this.b2bCount++;
+        } else if (!isTetris) {
+            this.b2bCount = 0;
+        }
+        this.lastClearWasTetris = isTetris;
+
         // Visual combo feedback
         const midRow = linesToClear[Math.floor(linesToClear.length / 2)];
         const comboMultiplier = Math.pow(1.2, this.combo - 1);
         const points = Math.floor(linesToClear.length * 100 * comboMultiplier);
-        if (this.combo >= 2) {
+        if (this.b2bCount >= 1 && isTetris) {
+            // Back-to-back Tetris bonus
+            const b2bBonus = 200 * this.b2bCount * this.level;
+            this.score += b2bBonus;
+            this.floatingTexts.push({
+                text: `B2B TETRIS x${this.b2bCount}! +${b2bBonus}`,
+                x: this.gridWidth * this.blockSize / 2,
+                y: midRow * this.blockSize - 20,
+                life: 70,
+                color: '#fbbf24'
+            });
+            this.shakeAmount = 10;
+            this.shakeFrames = 18;
+            this.tetrisFlash = 1.0;
+            this.spawnConfetti(30);
+        } else if (this.combo >= 2) {
             this.floatingTexts.push({
                 text: `${this.combo}x COMBO! +${points}`,
                 x: this.gridWidth * this.blockSize / 2,
