@@ -17,7 +17,8 @@
     "hold": "Hold",
     "holdButton": "HOLD (H)",
     "controls": "Controls",
-    "back": "Go Back"
+    "back": "Go Back",
+    "moreGames": "More Games"
   },
   "pause": {
     "title": "Paused",
@@ -72,5 +73,11 @@
     "audio": "Audio unavailable. You can still continue.",
     "network": "Please check your connection and try again.",
     "general": "Something went wrong. Please refresh or try again."
+  },
+  "related": {
+    "emojiMerge": "Emoji Merge",
+    "stackTower": "Stack Tower",
+    "puzzle2048": "2048",
+    "idleClicker": "Idle Clicker"
   }
 }

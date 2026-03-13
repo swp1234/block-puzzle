@@ -17,7 +17,8 @@
     "hold": "保存",
     "holdButton": "保存 (H)",
     "controls": "操作",
-    "back": "戻る"
+    "back": "戻る",
+    "moreGames": "他のゲーム"
   },
   "pause": {
     "title": "一時停止",
@@ -72,5 +73,11 @@
     "audio": "音声が利用できません。続行できます。",
     "network": "接続を確認して再試行してください。",
     "general": "問題が発生しました。更新するか再試行してください。"
+  },
+  "related": {
+    "emojiMerge": "絵文字マージ",
+    "stackTower": "スタックタワー",
+    "puzzle2048": "2048",
+    "idleClicker": "放置クリッカー"
   }
 }

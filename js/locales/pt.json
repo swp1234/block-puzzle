@@ -17,7 +17,8 @@
     "hold": "Guardar",
     "holdButton": "GUARDAR (H)",
     "controls": "Controles",
-    "back": "Voltar"
+    "back": "Voltar",
+    "moreGames": "Mais Jogos"
   },
   "pause": {
     "title": "Pausa",
@@ -72,5 +73,11 @@
     "audio": "Áudio indisponível. Você pode continuar.",
     "network": "Verifique sua conexão e tente novamente.",
     "general": "Algo deu errado. Atualize ou tente novamente."
+  },
+  "related": {
+    "emojiMerge": "Fusão Emoji",
+    "stackTower": "Torre de Blocos",
+    "puzzle2048": "2048",
+    "idleClicker": "Clicker Idle"
   }
 }

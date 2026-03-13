@@ -17,7 +17,8 @@
     "hold": "Halten",
     "holdButton": "HALTEN (H)",
     "controls": "Steuerung",
-    "back": "Zurück"
+    "back": "Zurück",
+    "moreGames": "Mehr Spiele"
   },
   "pause": {
     "title": "Pausiert",
@@ -72,5 +73,11 @@
     "audio": "Audio nicht verfügbar. Sie können fortfahren.",
     "network": "Bitte Verbindung prüfen und erneut versuchen.",
     "general": "Etwas ist schiefgelaufen. Bitte aktualisieren oder erneut versuchen."
+  },
+  "related": {
+    "emojiMerge": "Emoji Fusion",
+    "stackTower": "Turm Stapel",
+    "puzzle2048": "2048",
+    "idleClicker": "Idle Clicker"
   }
 }

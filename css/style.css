@@ -1156,6 +1156,97 @@ html, body {
     color: var(--primary-light);
 }
 
+/* === RELATED GAMES === */
+.related-tests {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(155, 89, 182, 0.2);
+}
+
+.related-tests h3 {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.related-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 8px;
+    background: linear-gradient(135deg, rgba(var(--card-color-rgb, 155, 89, 182), 0.15), rgba(var(--card-color-rgb, 155, 89, 182), 0.05));
+    border: 1px solid var(--card-color, rgba(155, 89, 182, 0.3));
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.related-card:hover {
+    background: linear-gradient(135deg, rgba(var(--card-color-rgb, 155, 89, 182), 0.25), rgba(var(--card-color-rgb, 155, 89, 182), 0.1));
+    border-color: var(--card-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.related-emoji {
+    font-size: 28px;
+    line-height: 1;
+}
+
+.related-name {
+    font-size: 12px;
+    text-align: center;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+@media (max-width: 400px) {
+    .related-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .related-card {
+        padding: 10px 6px;
+    }
+
+    .related-emoji {
+        font-size: 24px;
+    }
+
+    .related-name {
+        font-size: 11px;
+    }
+}
+
+[data-theme="light"] .related-tests {
+    border-top-color: rgba(155, 89, 182, 0.15);
+}
+
+[data-theme="light"] .related-card {
+    background: linear-gradient(135deg, rgba(var(--card-color-rgb, 155, 89, 182), 0.08), rgba(var(--card-color-rgb, 155, 89, 182), 0.03));
+    border-color: var(--card-color);
+}
+
+[data-theme="light"] .related-card:hover {
+    background: linear-gradient(135deg, rgba(var(--card-color-rgb, 155, 89, 182), 0.15), rgba(var(--card-color-rgb, 155, 89, 182), 0.05));
+}
+
 /* === UTILITIES === */
 .hidden {
     display: none !important;

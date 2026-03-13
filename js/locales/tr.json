@@ -17,7 +17,8 @@
     "hold": "Sakla",
     "holdButton": "SAKLA (H)",
     "controls": "Kontroller",
-    "back": "Geri"
+    "back": "Geri",
+    "moreGames": "Daha Fazla Oyun"
   },
   "pause": {
     "title": "Duraklatıldı",
@@ -72,5 +73,11 @@
     "audio": "Ses kullanılamıyor. Devam edebilirsiniz.",
     "network": "Bağlantınızı kontrol edip tekrar deneyin.",
     "general": "Bir şeyler ters gitti. Yenileyip tekrar deneyin."
+  },
+  "related": {
+    "emojiMerge": "Emoji Birleştir",
+    "stackTower": "Kule Yığını",
+    "puzzle2048": "2048",
+    "idleClicker": "Boşta Tıklayıcı"
   }
 }

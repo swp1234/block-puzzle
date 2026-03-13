@@ -17,7 +17,8 @@
     "hold": "Conserver",
     "holdButton": "CONSERVER (H)",
     "controls": "Contrôles",
-    "back": "Retour"
+    "back": "Retour",
+    "moreGames": "Plus de Jeux"
   },
   "pause": {
     "title": "Pause",
@@ -72,5 +73,11 @@
     "audio": "Audio indisponible. Vous pouvez continuer.",
     "network": "Vérifiez votre connexion et réessayez.",
     "general": "Un problème est survenu. Rafraîchissez ou réessayez."
+  },
+  "related": {
+    "emojiMerge": "Fusion Emoji",
+    "stackTower": "Tour Empilée",
+    "puzzle2048": "2048",
+    "idleClicker": "Clicker Idle"
   }
 }

@@ -17,7 +17,8 @@
     "hold": "Simpan",
     "holdButton": "SIMPAN (H)",
     "controls": "Kontrol",
-    "back": "Kembali"
+    "back": "Kembali",
+    "moreGames": "Game Lainnya"
   },
   "pause": {
     "title": "Jeda",
@@ -72,5 +73,11 @@
     "audio": "Audio tidak tersedia. Anda dapat melanjutkan.",
     "network": "Periksa koneksi Anda dan coba lagi.",
     "general": "Terjadi kesalahan. Muat ulang atau coba lagi."
+  },
+  "related": {
+    "emojiMerge": "Gabung Emoji",
+    "stackTower": "Menara Tumpuk",
+    "puzzle2048": "2048",
+    "idleClicker": "Idle Clicker"
   }
 }
