@@ -7,6 +7,7 @@ class I18n {
         this.translations = {};
         this.supportedLanguages = ['ko', 'en', 'zh', 'hi', 'ru', 'ja', 'es', 'pt', 'id', 'tr', 'de', 'fr'];
         this.currentLanguage = this.detectLanguage();
+        document.documentElement.lang = this.currentLanguage;
         this.languageNames = {
             ko: '🇰🇷 한국어',
             en: '🇺🇸 English',
@@ -24,6 +25,17 @@ class I18n {
     }
 
     detectLanguage() {
+        // URL language is an explicit user/navigation choice.
+        try {
+            const params = new URLSearchParams(window.location.search);
+            const urlLang = params.get('lang');
+            if (urlLang && this.supportedLanguages.includes(urlLang)) {
+                return urlLang;
+            }
+        } catch (e) {
+            console.warn('Failed to detect URL language:', e.message);
+        }
+
         // Check localStorage with error handling
         try {
             const saved = localStorage.getItem('language');
@@ -98,6 +110,7 @@ class I18n {
         try {
             await this.loadTranslations(lang);
             this.currentLanguage = lang;
+            document.documentElement.lang = lang;
 
             // Try to save language preference to localStorage
             try {
@@ -115,6 +128,8 @@ class I18n {
 
     updateUI() {
         try {
+            document.documentElement.lang = this.currentLanguage;
+
             // Update elements with data-i18n attribute
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 try {
