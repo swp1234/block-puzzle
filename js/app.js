@@ -2,6 +2,22 @@
  * Block Puzzle Game - Main Game Logic
  */
 
+const blockPuzzleStages = new Set();
+
+function trackBlockPuzzle(eventName, detail = {}) {
+    if (blockPuzzleStages.has(eventName)) return;
+    blockPuzzleStages.add(eventName);
+    if (typeof gtag === 'function') {
+        gtag('event', eventName, {
+            event_category: 'block_puzzle',
+            app_language: window.i18n?.getCurrentLanguage?.() || document.documentElement.lang || 'en',
+            ...detail
+        });
+    }
+}
+
+window.trackBlockPuzzle = trackBlockPuzzle;
+
 // Block Shapes (Tetromino)
 const BLOCK_SHAPES = {
     I: [
@@ -127,7 +143,6 @@ class BlockPuzzle {
             gameoverScreen: document.getElementById('gameover-screen'),
             statsScreen: document.getElementById('stats-screen'),
             pauseOverlay: document.getElementById('pause-overlay'),
-            interstitialOverlay: document.getElementById('interstitial-overlay'),
             hudScore: document.getElementById('hud-score'),
             hudLevel: document.getElementById('hud-level'),
             tapHint: document.getElementById('tap-hint'),
@@ -260,16 +275,7 @@ class BlockPuzzle {
         }
 
         if (this.elements.btnStats) {
-            this.elements.btnStats.addEventListener('click', () => {
-                // GA4 engagement event
-                if (!this._engagementFired) {
-                    this._engagementFired = true;
-                    if (typeof gtag === 'function') {
-                        gtag('event', 'engagement', { event_category: 'block_puzzle', event_label: 'first_interaction' });
-                    }
-                }
-                this.showStats();
-            });
+            this.elements.btnStats.addEventListener('click', () => this.showStats());
         }
 
         if (this.elements.btnStatsBack) {
@@ -494,15 +500,7 @@ class BlockPuzzle {
 
     startGame() {
         this._newBestShown = false;
-        if (typeof GameAds !== 'undefined') GameAds.removeRewardButton('#gameover-screen');
-        if(typeof gtag!=='undefined') gtag('event','game_start');
-        // GA4 engagement event to reduce bounce rate
-        if (!this._engagementFired) {
-            this._engagementFired = true;
-            if (typeof gtag === 'function') {
-                gtag('event', 'engagement', { event_category: 'block_puzzle', event_label: 'first_interaction' });
-            }
-        }
+        trackBlockPuzzle('block_puzzle_start');
         try {
             this.clearSavedState();
             this.grid = this.createEmptyGrid();
@@ -1018,7 +1016,7 @@ class BlockPuzzle {
     }
 
     gameOver() {
-        if(typeof gtag!=='undefined') gtag('event','game_over',{score:this.score});
+        trackBlockPuzzle('block_puzzle_complete');
         this.gameRunning = false;
         this.clearSavedState();
 
@@ -1043,13 +1041,6 @@ class BlockPuzzle {
         }
 
         if (typeof Haptic !== 'undefined') Haptic.heavy();
-        if (typeof DailyStreak !== 'undefined') DailyStreak.report(this.score);
-        if (typeof GameAchievements !== 'undefined') GameAchievements.report({
-            bestScore: this.highScore,
-            totalGames: this.leaderboard.getScores().length,
-            bestCombo: this.combo
-        });
-
         this.elements.goScore.textContent = this.score;
         this.elements.goLevel.textContent = this.level;
         this.elements.goBest.textContent = this.highScore;
@@ -1061,29 +1052,12 @@ class BlockPuzzle {
         // Display leaderboard
         this.displayLeaderboard(leaderboardResult);
 
-        const showGameOverAndReward = () => {
-            this.showScreen('gameover-screen');
-            if (typeof GameAds !== 'undefined') {
-                GameAds.injectRewardButton({
-                    container: '#gameover-screen',
-                    label: 'Watch Ad for 2x Score',
-                    onReward: () => {
-                        this.score *= 2;
-                        this.elements.goScore.textContent = this.score;
-                        if (this.score > this.highScore) {
-                            this.highScore = this.score;
-                            localStorage.setItem('blockPuzzleHighScore', this.score);
-                            this.elements.goBest.textContent = this.highScore;
-                        }
-                    }
-                });
-            }
-        };
+        const showGameOver = () => this.showScreen('gameover-screen');
 
         if (typeof GameAds !== 'undefined') {
-            GameAds.showInterstitial({ onComplete: () => showGameOverAndReward() });
+            GameAds.showInterstitial({ onComplete: showGameOver });
         } else {
-            showGameOverAndReward();
+            showGameOver();
         }
     }
 
@@ -1152,18 +1126,28 @@ class BlockPuzzle {
         }
     }
 
-    shareScore() {
-        const shareTemplate = window.i18n?.t('share_msg.text') || '🧩 Block Puzzle: {score} pts!\nLevel: {level}\n\n{url}';
-        const text = shareTemplate.replace('{score}', this.score).replace('{level}', this.level).replace('{url}', location.href);
+    async shareScore() {
+        const supported = new Set(['ko', 'en', 'zh', 'hi', 'ru', 'ja', 'es', 'pt', 'id', 'tr', 'de', 'fr']);
+        const selected = window.i18n?.getCurrentLanguage?.() || 'en';
+        const lang = supported.has(selected) ? selected : 'en';
+        const url = `https://dopabrain.com/block-puzzle/?lang=${lang}`;
+        const original = this.elements.btnShare?.textContent;
 
-        if (navigator.share) {
-            navigator.share({
-                title: 'Block Puzzle',
-                text: text,
-                url: location.href
-            });
-        } else {
-            alert(text);
+        try {
+            if (navigator.share) {
+                await navigator.share({ title: 'Block Puzzle', text: 'Play Block Puzzle on DopaBrain.', url });
+            } else if (navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(url);
+            } else {
+                throw new Error('Share is not supported');
+            }
+            trackBlockPuzzle('block_puzzle_share');
+            if (this.elements.btnShare) {
+                this.elements.btnShare.textContent = window.i18n?.t('share.copied') || 'Copied';
+                setTimeout(() => { this.elements.btnShare.textContent = original; }, 1600);
+            }
+        } catch (error) {
+            if (error?.name !== 'AbortError') console.warn('Share failed:', error?.message || error);
         }
     }
 
@@ -1518,83 +1502,40 @@ if (themeToggle) {
     });
 }
 
-// Initialize game when DOM is ready
-window.addEventListener('load', () => {
-    try {
-        // Initialize i18n
-        if (window.i18n) {
-            window.i18n.initI18n().then(() => {
-                // Create game instance
-                window.game = new BlockPuzzle();
-                if (typeof GameAds !== 'undefined') GameAds.init();
-                if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'block-puzzle', bestScoreKey: 'blockPuzzleHighScore', minTarget: 100 });
-                if (typeof GameAchievements !== 'undefined') GameAchievements.init({
-                    gameId: 'block-puzzle',
-                    defs: [
-                        { id: 'score_500', stat: 'bestScore', target: 500, icon: '⭐', name: 'Rising Star' },
-                        { id: 'score_2000', stat: 'bestScore', target: 2000, icon: '🏆', name: 'Block Master' },
-                        { id: 'score_5000', stat: 'bestScore', target: 5000, icon: '👑', name: 'Block Legend' },
-                        { id: 'games_10', stat: 'totalGames', target: 10, icon: '🎮', name: 'Regular Player' },
-                        { id: 'games_50', stat: 'totalGames', target: 50, icon: '🔥', name: 'Dedicated' },
-                        { id: 'combo_5', stat: 'bestCombo', target: 5, icon: '💥', name: 'Combo King' }
-                    ]
-                });
+function initializeBlockPuzzle() {
+    window.game = new BlockPuzzle();
+    if (typeof GameAds !== 'undefined') GameAds.init();
 
-                // Hide loader
-                const loader = document.getElementById('app-loader');
-                if (loader) {
-                    loader.style.opacity = '0';
-                    setTimeout(() => {
-                        loader.style.display = 'none';
-                    }, 300);
-                }
-            }).catch((err) => {
-                console.error('i18n initialization failed:', err);
-                // Fallback to game creation
-                window.game = new BlockPuzzle();
-                if (typeof GameAds !== 'undefined') GameAds.init();
-                if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'block-puzzle', bestScoreKey: 'blockPuzzleHighScore', minTarget: 100 });
-                if (typeof GameAchievements !== 'undefined') GameAchievements.init({
-                    gameId: 'block-puzzle',
-                    defs: [
-                        { id: 'score_500', stat: 'bestScore', target: 500, icon: '⭐', name: 'Rising Star' },
-                        { id: 'score_2000', stat: 'bestScore', target: 2000, icon: '🏆', name: 'Block Master' },
-                        { id: 'score_5000', stat: 'bestScore', target: 5000, icon: '👑', name: 'Block Legend' },
-                        { id: 'games_10', stat: 'totalGames', target: 10, icon: '🎮', name: 'Regular Player' },
-                        { id: 'games_50', stat: 'totalGames', target: 50, icon: '🔥', name: 'Dedicated' },
-                        { id: 'combo_5', stat: 'bestCombo', target: 5, icon: '💥', name: 'Combo King' }
-                    ]
-                });
-                document.getElementById('app-loader').style.display = 'none';
+    document.querySelectorAll('.related-card[data-target-slug]').forEach(link => {
+        link.addEventListener('click', () => {
+            trackBlockPuzzle('block_puzzle_related_click', {
+                target_slug: link.getAttribute('data-target-slug')
             });
-        } else {
-            // Fallback if i18n fails
-            console.warn('i18n not found, creating BlockPuzzle without i18n');
-            window.game = new BlockPuzzle();
-            if (typeof GameAds !== 'undefined') GameAds.init();
-            if (typeof DailyStreak !== 'undefined') DailyStreak.init({ gameId: 'block-puzzle', bestScoreKey: 'blockPuzzleHighScore', minTarget: 100 });
-            if (typeof GameAchievements !== 'undefined') GameAchievements.init({
-                gameId: 'block-puzzle',
-                defs: [
-                    { id: 'score_500', stat: 'bestScore', target: 500, icon: '⭐', name: 'Rising Star' },
-                    { id: 'score_2000', stat: 'bestScore', target: 2000, icon: '🏆', name: 'Block Master' },
-                    { id: 'score_5000', stat: 'bestScore', target: 5000, icon: '👑', name: 'Block Legend' },
-                    { id: 'games_10', stat: 'totalGames', target: 10, icon: '🎮', name: 'Regular Player' },
-                    { id: 'games_50', stat: 'totalGames', target: 50, icon: '🔥', name: 'Dedicated' },
-                    { id: 'combo_5', stat: 'bestCombo', target: 5, icon: '💥', name: 'Combo King' }
-                ]
-            });
-            const loader = document.getElementById('app-loader');
-            if (loader) {
-                loader.style.display = 'none';
-            }
-        }
-    } catch (e) {
-        console.error('Error in window load handler:', e);
+        });
+    });
+
+    const loader = document.getElementById('app-loader');
+    if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(() => { loader.style.display = 'none'; }, 300);
+    }
+    trackBlockPuzzle('block_puzzle_view');
+}
+
+// Initialize game when DOM is ready.
+window.addEventListener('load', async () => {
+    try {
+        if (window.i18n) await window.i18n.initI18n();
+    } catch (error) {
+        console.warn('i18n initialization failed:', error?.message || error);
+    }
+
+    try {
+        initializeBlockPuzzle();
+    } catch (error) {
+        console.error('Block Puzzle initialization failed:', error);
         const loader = document.getElementById('app-loader');
-        if (loader) {
-            loader.style.display = 'none';
-        }
+        if (loader) loader.style.display = 'none';
     }
 });
 

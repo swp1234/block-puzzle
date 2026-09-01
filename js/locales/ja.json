@@ -39,21 +39,11 @@
     "back": "← 戻る",
     "stats": "統計"
   },
-  "ad": {
-    "placeholder": "広告スペース",
-    "placeholder_interstitial": "広告スペース（フルスクリーン）",
-    "label": "広告",
-    "countdown": "秒後に閉じる",
-    "close": "✕ 閉じる"
-  },
   "stats_detail": {
     "highScore": "ハイスコア",
     "currentScore": "現在のスコア",
     "linesCleared": "クリアライン",
     "currentLevel": "現在のレベル"
-  },
-  "share_msg": {
-    "text": "🧩 ブロックパズル：{score}点！\nレベル：{level}\n\n{url}"
   },
   "share": {
     "twitter": "Twitter",

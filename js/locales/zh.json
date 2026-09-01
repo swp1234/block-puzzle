@@ -39,21 +39,11 @@
     "back": "← 返回",
     "stats": "统计"
   },
-  "ad": {
-    "placeholder": "广告区域",
-    "placeholder_interstitial": "广告区域（全屏）",
-    "label": "广告",
-    "countdown": "秒后关闭",
-    "close": "✕ 关闭"
-  },
   "stats_detail": {
     "highScore": "最高分",
     "currentScore": "当前分数",
     "linesCleared": "消除行数",
     "currentLevel": "当前等级"
-  },
-  "share_msg": {
-    "text": "🧩 方块拼图：{score}分！\n等级：{level}\n\n{url}"
   },
   "share": {
     "twitter": "推特",

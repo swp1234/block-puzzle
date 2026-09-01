@@ -39,21 +39,11 @@
     "back": "← Atrás",
     "stats": "Estadísticas"
   },
-  "ad": {
-    "placeholder": "Espacio Publicitario",
-    "placeholder_interstitial": "Espacio Publicitario (Pantalla Completa)",
-    "label": "Publicidad",
-    "countdown": "Cerrar en",
-    "close": "✕ Cerrar"
-  },
   "stats_detail": {
     "highScore": "Puntuación máxima",
     "currentScore": "Puntuación actual",
     "linesCleared": "Líneas eliminadas",
     "currentLevel": "Nivel actual"
-  },
-  "share_msg": {
-    "text": "🧩 Block Puzzle: ¡{score} pts!\nNivel: {level}\n\n{url}"
   },
   "share": {
     "twitter": "Twitter",

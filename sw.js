@@ -1,84 +1,44 @@
-/**
- * Service Worker - Offline Support & Caching
- */
-
-const CACHE_NAME = 'block-puzzle-v6';
-const ASSETS_TO_CACHE = [
-    '/',
-    'index.html',
-    'css/style.css',
-    'assets/bg-opt.jpg',
-    'js/app.js',
-    'js/i18n.js',
-    'js/sound-engine.js',
-    'manifest.json',
-    'icon-192.svg',
-    'icon-512.svg',
-    'js/locales/ko.json',
-    'js/locales/en.json',
-    'js/locales/zh.json',
-    'js/locales/hi.json',
-    'js/locales/ru.json',
-    'js/locales/ja.json',
-    'js/locales/es.json',
-    'js/locales/pt.json',
-    'js/locales/id.json',
-    'js/locales/tr.json',
-    'js/locales/de.json',
-    'js/locales/fr.json'
+const CACHE_NAME = 'block-puzzle-v7';
+const SCOPE = '/block-puzzle/';
+const ASSETS = [
+    SCOPE,
+    `${SCOPE}index.html`,
+    `${SCOPE}css/style.css`,
+    `${SCOPE}assets/bg-opt.jpg`,
+    `${SCOPE}js/storage-manager.js`,
+    `${SCOPE}js/leaderboard-manager.js`,
+    `${SCOPE}js/i18n.js`,
+    `${SCOPE}js/sound-engine.js`,
+    `${SCOPE}js/app.js`,
+    `${SCOPE}manifest.json`,
+    `${SCOPE}icon-192.svg`,
+    `${SCOPE}icon-512.svg`,
+    ...['ko', 'en', 'zh', 'hi', 'ru', 'ja', 'es', 'pt', 'id', 'tr', 'de', 'fr']
+        .map(lang => `${SCOPE}js/locales/${lang}.json`)
 ];
 
-// Install event - cache assets
-self.addEventListener('install', (event) => {
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then((cache) => {
-                console.log('Caching assets');
-                return cache.addAll(ASSETS_TO_CACHE);
-            })
-            .then(() => self.skipWaiting())
-    );
+self.addEventListener('install', event => {
+    event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
 
-// Activate event - clean up old caches
-self.addEventListener('activate', (event) => {
+self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys()
-            .then((cacheNames) => {
-                return Promise.all(
-                    cacheNames
-                        .filter((cacheName) => cacheName !== CACHE_NAME)
-                        .map((cacheName) => {
-                            console.log('Deleting old cache:', cacheName);
-                            return caches.delete(cacheName);
-                        })
-                );
-            })
+            .then(names => Promise.all(names.filter(name => name.startsWith('block-puzzle-') && name !== CACHE_NAME).map(name => caches.delete(name))))
             .then(() => self.clients.claim())
     );
 });
 
-// Fetch event - network first, fallback to cache
-self.addEventListener('fetch', (event) => {
-    if (event.request.method !== 'GET') return;
-
-    // Skip external requests (ads, analytics, etc.)
-    if (!event.request.url.startsWith(self.location.origin)) return;
+self.addEventListener('fetch', event => {
+    const url = new URL(event.request.url);
+    if (event.request.method !== 'GET' || url.origin !== self.location.origin || !url.pathname.startsWith(SCOPE)) return;
 
     event.respondWith(
         fetch(event.request)
-            .then((response) => {
-                if (response && response.status === 200) {
-                    const responseToCache = response.clone();
-                    caches.open(CACHE_NAME).then((cache) => {
-                        cache.put(event.request, responseToCache);
-                    });
-                }
+            .then(response => {
+                if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(event.request, response.clone()));
                 return response;
             })
-            .catch(() => {
-                return caches.match(event.request)
-                    .then((cached) => cached || caches.match('./index.html'));
-            })
+            .catch(async () => (await caches.match(event.request)) || caches.match(`${SCOPE}index.html`))
     );
 });

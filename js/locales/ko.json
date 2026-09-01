@@ -39,21 +39,11 @@
     "back": "← 뒤로",
     "stats": "통계"
   },
-  "ad": {
-    "placeholder": "광고 영역",
-    "placeholder_interstitial": "광고 영역 (전면)",
-    "label": "광고",
-    "countdown": "초 후 닫기",
-    "close": "✕ 닫기"
-  },
   "stats_detail": {
     "highScore": "최고 점수",
     "currentScore": "현재 게임 점수",
     "linesCleared": "클리어 라인",
     "currentLevel": "현재 레벨"
-  },
-  "share_msg": {
-    "text": "🧩 Block Puzzle에서 {score}점!\n레벨: {level}\n\n{url}"
   },
   "share": {
     "twitter": "트위터",

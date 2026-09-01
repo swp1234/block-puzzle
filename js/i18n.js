@@ -156,6 +156,11 @@ class I18n {
 
             // Update language menu
             this.updateLanguageMenu();
+
+            document.querySelectorAll('.related-card[data-target-slug]').forEach(link => {
+                const slug = link.getAttribute('data-target-slug');
+                link.href = `/${slug}/?lang=${this.currentLanguage}`;
+            });
         } catch (e) {
             console.error('Error during updateUI:', e.message);
         }
