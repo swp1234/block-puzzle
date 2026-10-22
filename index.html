@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html data-ad-serving="suspended-invalid-traffic-2026-09-11" lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -24,8 +24,6 @@
     <script>
       (function(){var q=new URLSearchParams(location.search),langs=new Set(['ko','en','zh','hi','ru','ja','es','pt','id','tr','de','fr']),sources=new Set(['zh_dopabrain_games_block']);var clean=new URLSearchParams(),lang=q.get('lang'),source=q.get('source');if(langs.has(lang))clean.set('lang',lang);if(sources.has(source))clean.set('source',source);var search=clean.toString()?'?'+clean:'';if(location.search!==search||location.hash)history.replaceState(null,'',location.pathname+search)})();
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3600813755953882" crossorigin="anonymous"></script>
-
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#9b59b6">
@@ -242,7 +240,6 @@
     <script src="js/i18n.js" defer></script>
     <script src="js/sound-engine.js" defer></script>
     <script src="/portal/js/haptic.js" defer></script>
-    <script src="/portal/js/game-ads.js" defer></script>
     <script src="js/app.js" defer></script>
 
     <script>
@@ -258,9 +255,11 @@
         .sound-toggle {
             position: fixed;
             top: 12px;
-            right: 52px;
-            width: 40px;
-            height: 40px;
+            right: 116px;
+            min-width: 44px;
+            min-height: 44px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
@@ -273,6 +272,7 @@
             align-items: center;
             justify-content: center;
             transition: background 0.2s;
+            touch-action: manipulation;
         }
         .sound-toggle:hover { background: rgba(255,255,255,0.2); }
         .sound-toggle:active { transform: scale(0.95); }
